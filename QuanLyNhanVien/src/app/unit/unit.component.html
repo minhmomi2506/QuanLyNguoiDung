@@ -1,0 +1,103 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<a routerLink="/register" routerLinkActive="route-link-active">Register</a>
+<div style="text-align: center">
+    <h1>{{msg}}</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <fieldset>
+                    <legend class="text-center">Valid information is required to register. <span class="req"><small>
+                                required *</small></span></legend>
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> Unit ID: <small>This will be your login user
+                                name</small> </label>
+                        <input required type="text" [(ngModel)]="unit.unitId" name="unitId" id="unitId"
+                            class="form-control phone" maxlength="28" placeholder="Enter your unitId..." />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> Name: <small>This will be your login user
+                                name</small> </label>
+                        <input required type="text" [(ngModel)]="unit.unitName" name="username" id="username"
+                            class="form-control phone" maxlength="28" placeholder="Enter your username..." />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description"><span class="req">* </span> Description: </label>
+                        <input class="form-control" required type="text" [(ngModel)]="unit.description"
+                            name="description" id="description" placeholder="Enter description" />
+                        <div class="status" id="status"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role"><span class="req">* </span> Unit: </label>
+                        <select (change)="unitIdChange()" id="userUnitId" required="required">
+                            <option></option>
+                            <option *ngFor="let unit of units" value="{{unit.id}}" text="{{unit.unitName}}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" name="submit_reg" value="Register"
+                            (click)="addUnit()">
+                    </div>
+                </fieldset>
+            </form><!-- ends register form -->
+            <!-- second for to fiter user-->
+        </div><!-- ends col-6 -->
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-12" style="text-align: center">
+                <input type="text" class="search-query form-control" placeholder="Search With Email Address"
+                    name="email" [(ngModel)]="str">
+                <span class="input-group-btn">
+                    <button class="btn btn-danger" type="button">
+                        <span class=" glyphicon glyphicon-search"></span>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="container">
+        <div class="row col-md-6 col-md-offset-2 custyle" style="width: 500px;">
+            <table class="table table-striped custab" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Unit Id</th>
+                        <th>Unit name</th>
+                        <th>Description</th>
+                        <th>Create Date</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let unit of units">
+                        <td>{{unit.id}}</td>
+                        <td>{{unit.unitId}}</td>
+                        <td>{{unit.unitName}}</td>
+                        <td>{{unit.description}}</td>
+                        <td>{{unit.createDate}}</td>
+                        <td style="width: 200px;"><a class="fa fa-pencil" data-toggle="modal"
+                                data-target="#editUserModal"></a>
+                        </td>
+                        <td><a class="fas fa-trash" (click)="deleteUnit(unit.id)" style="color: red;"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

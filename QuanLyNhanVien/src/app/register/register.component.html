@@ -1,0 +1,85 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div style="text-align: center">
+    <h1>{{message}}</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form (submit)="registerNow()">
+                <fieldset>
+                    <legend class="text-center">Valid information is required to register. <span class="req"><small>
+                                required *</small></span></legend>
+
+                    <div class="form-group">
+                        <label for="username"><span class="req">* </span> Name: <small>This will be your login user
+                                name</small> </label>
+                        <input required type="text" [(ngModel)]="user.username" name="username" id="username"
+                            class="form-control phone" maxlength="28" placeholder="Enter your username..." required="required" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><span class="req">* </span> Password: </label>
+                        <input class="form-control" type="password" [(ngModel)]="user.password" name="password" id="txt"
+                            required placeholder="Enter password" required="required" />
+                        <div id="errFirst"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="fullName"><span class="req">* </span> Full name : </label>
+                        <input class="form-control" type="text" [(ngModel)]="user.fullName" name="fullName"
+                            id="fullName" placeholder="Enter full name" required="required" />
+                        <div id="errLast"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth"><span class="req">* </span> Date of birth : </label>
+                        <input class="form-control" type="date" [(ngModel)]="user.dateOfBirth" name="dateOfBirth"
+                            id="dateOfBirth" placeholder="Enter date of birth" required="required" />
+                        <div id="errLast"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description"><span class="req">* </span> Description: </label>
+                        <input class="form-control" required type="text" [(ngModel)]="user.description"
+                            name="description" id="description" placeholder="Enter description" />
+                        <div class="status" id="status"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address"><span class="req">* </span> Address: </label>
+                        <input class="form-control" required type="text" [(ngModel)]="user.address" name="address"
+                            id="address" placeholder="Enter address" required="required" />
+                        <div class="status" id="status"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role"><span class="req">* </span> Role: </label>
+                        <select (change)="roleIdChange()" id="userRoleId" required="required">
+                            <option></option>
+                            <option *ngFor="let role of roles" value="{{role.id}}" text="{{role.roleName}}"
+                                class="roleName"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="role"><span class="req">* </span> Unit: </label>
+                        <select (change)="unitIdChange()" id="userUnitId" required="required">
+                            <option></option>
+                            <option *ngFor="let unit of units" value="{{unit.id}}" text="{{unit.unitName}}"></option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" name="submit_reg" value="Register"
+                            id="registerButton">
+                    </div>
+                </fieldset>
+            </form><!-- ends register form -->
+            <!-- second for to fiter user-->
+        </div><!-- ends col-6 -->
+
+    </div>
+</div>
