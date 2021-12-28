@@ -1,0 +1,62 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<div style="text-align: center">
+    <h1>{{msg}}</h1>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <fieldset>
+                    <legend class="text-center">Valid information is required to register. <span class="req"><small>
+                                required *</small></span></legend>
+
+                    <div class="form-group">
+                        <label for="fullName"><span class="req">* </span> Full name : </label>
+                        <input class="form-control" type="text" name="id" id="fullName"
+                            [(ngModel)]="editUserHistory.userFullNameEdit" placeholder="Enter full name" required />
+                        <div id="errLast"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="dateOfBirth"><span class="req">* </span> Date of birth : </label>
+                        <input class="form-control" type="date" [(ngModel)]="editUserHistory.userDateOfBirthEdit" name="dateOfBirth"
+                            id="dateOfBirth" placeholder="Enter date of birth" required />
+                        <div id="errLast"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description"><span class="req">* </span> Description: </label>
+                        <input class="form-control" required type="text" name="description" id="description"
+                            placeholder="Enter description" [(ngModel)]="editUserHistory.userDescriptionEdit" />
+                        <div class="status" id="status"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address"><span class="req">* </span> Address: </label>
+                        <input class="form-control" required type="text" name="address" id="address"
+                            [(ngModel)]="editUserHistory.userAddressEdit" placeholder="Enter address" />
+                        <div class="status" id="status"></div>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="role"><span class="req">* </span> Unit: </label>
+                        <select (change)="unitIdChange()" id="userUnitId" >
+                            <option *ngFor="let unit of units" value="{{unit.id}}" text="{{unit.unitName}}"
+                            ></option>
+                        </select>
+                    </div> -->
+
+                    <div class="form-group">
+                        <input class="btn btn-success" type="submit" name="submit_reg" value="Edit"
+                            (click)="editUser()">
+                    </div>
+                </fieldset>
+            </form><!-- ends register form -->
+            <!-- second for to fiter user-->
+        </div><!-- ends col-6 -->
+
+    </div>
+</div>
