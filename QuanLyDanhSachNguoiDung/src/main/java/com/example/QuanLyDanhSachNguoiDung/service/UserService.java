@@ -5,42 +5,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
+import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.EditUserHistoryRepo;
+import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 
 @Service
-public class UserService{
+public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepo userRepo;
 	
 	@Autowired
+	private RoleRepo roleRepo;
+	
+	@Autowired
 	private EditUserHistoryRepo editUserHistoryRepo;
 	
-//	@Override
-//	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//		User user = userRepo.findUserByUsername(username);
-//		if(user == null) {
-//			throw new UsernameNotFoundException("Khong tim thay");
-//		}
-//		else {
-//			return new MyUserDetail(user);
-//		}
-//	}
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepo.findUserByUsername(username);
+		if(user == null) {
+			throw new UsernameNotFoundException("Khong tim thay");
+		}
+		else {
+			return new MyUserDetail(user);
+		}
+	}
 	
 	/* REGISTER */
 	public String register(User user) {
 		long millis = System.currentTimeMillis();
 		Date date = new Date(millis);
 		user.setCreateDate(date);
+		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+		String encodedPassword = encode.encode(user.getPassword());
+		user.setPassword(encodedPassword);
+		Role role = roleRepo.findRoleByRoleName("USER");
+		user.setRole(role);
 		userRepo.save(user);
-//		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-//		String encodedPassword = encode.encode(user.getPassword());
-//		user.setPassword(encodedPassword);
-//		userRepo.save(user);
 		return "your acc has been successfully registered!";
 	}
 
