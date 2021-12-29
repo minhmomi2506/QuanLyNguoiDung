@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
 import { EditUnitHistory } from '../editunithistory';
-import { UnitServiceService } from '../unit-service.service';
+import { UnitServiceService } from '../services/unit-service.service';
 import { Unit } from '../units';
 
 @Component({

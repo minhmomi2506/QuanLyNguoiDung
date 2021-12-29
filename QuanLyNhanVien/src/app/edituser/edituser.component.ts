@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
 import { EditUserHistory } from '../edituserhistory';
-import { SearchDeleteService } from '../search-delete.service';
+import { SearchDeleteService } from '../services/search-delete.service';
 import { User } from '../user';
 
 @Component({

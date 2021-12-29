@@ -6,14 +6,14 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SearchDeleteComponent } from './search-delete/search-delete.component';
-import { SearchDeleteService } from './search-delete.service';
 import { RegisterComponent } from './register/register.component';
-import { RegisterService } from './register.service';
 import { UnitComponent } from './unit/unit.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { EdituserComponent } from './edituser/edituser.component';
 import { EditunitComponent } from './editunit/editunit.component';
 import { LoginjwtComponent } from './loginjwt/loginjwt.component';
+import { RegisterService } from './services/register.service';
+import { SearchDeleteService } from './services/search-delete.service';
 @NgModule({
   declarations: [
     AppComponent,
