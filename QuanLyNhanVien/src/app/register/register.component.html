@@ -30,7 +30,8 @@
                     <div class="form-group">
                         <label for="fullName"><span class="req">* </span> Full name : </label>
                         <input class="form-control" type="text" [(ngModel)]="user.fullName" name="fullName"
-                            id="fullName" placeholder="Enter full name" required="required" />
+                            id="fullName" placeholder="Enter full name" required="required" minlength="3"
+                            maxlength="20" />
                         <div id="errLast"></div>
                     </div>
 
@@ -53,15 +54,6 @@
                         <input class="form-control" required type="text" [(ngModel)]="user.address" name="address"
                             id="address" placeholder="Enter address" required="required" />
                         <div class="status" id="status"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="role"><span class="req">* </span> Role: </label>
-                        <select (change)="roleIdChange()" id="userRoleId" required="required">
-                            <option></option>
-                            <option *ngFor="let role of roles" value="{{role.id}}" text="{{role.roleName}}"
-                                class="roleName"></option>
-                        </select>
                     </div>
 
                     <div class="form-group">

@@ -9,7 +9,6 @@ export class User{
         public dateOfBirth: Date,
         public description:string,
         public address:string,
-        public role: Role,
         public unit: Unit
     ){}
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchDeleteService } from '../search-delete.service';
 import * as $ from "jquery";
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SearchDeleteService } from '../services/search-delete.service';
 
 @Component({
   selector: 'app-search-delete',
@@ -18,8 +18,10 @@ export class SearchDeleteComponent implements OnInit {
   constructor(private service: SearchDeleteService, private router: Router) { }
 
   ngOnInit(): void {
-    let resp = this.service.getAllUsers();
-    resp.subscribe((data) => this.users = data);
+      console.log(localStorage.getItem('token'));
+      let resp = this.service.getAllUsers();
+      resp.subscribe((data) => this.users = data);
+    
   }
 
   public findUserByStr() {
