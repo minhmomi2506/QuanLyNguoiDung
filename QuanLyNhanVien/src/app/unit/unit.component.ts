@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { data } from 'jquery';
-import { UnitServiceService } from '../unit-service.service';
+import { UnitServiceService } from '../services/unit-service.service';
 import { Unit } from '../units';
 
 @Component({

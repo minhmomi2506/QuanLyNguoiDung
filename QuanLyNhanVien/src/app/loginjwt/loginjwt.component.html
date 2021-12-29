@@ -79,19 +79,22 @@
 
   <h2>Login Form</h2>
 
-  <form action="" method="post" (submit)="ngOnInit()">
+  <form action="" method="post" (submit)="getToken()">
     <div class="container">
       <label for="uname"><b>Username</b></label>
-      <input type="text" placeholder="Enter Username" name="username" id="username" [(ngModel)]="authRequest.username"
-        required>
+      <input type="text" placeholder="Enter Username" name="username" id="username"
+        required [(ngModel)]="user.username">
 
       <label for="psw"><b>Password</b></label>
       <input type="password" placeholder="Enter Password" name="password" id="password"
-        [(ngModel)]="authRequest.password" required>
+      required  [(ngModel)]="user.password">
 
       <button type="submit">Login</button>
     </div>
   </form>
+
+  <!-- [(ngModel)]="authRequest.username"
+  [(ngModel)]="authRequest.password"  -->
 
 </body>
 

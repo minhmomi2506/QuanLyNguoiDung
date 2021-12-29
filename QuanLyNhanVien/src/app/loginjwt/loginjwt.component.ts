@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginjwtService } from '../loginjwt.service';
+import { data } from 'jquery';
 import { Role } from '../roles';
+import { LoginjwtService } from '../services/loginjwt.service';
 import { Unit } from '../units';
 import { User } from '../user';
 
@@ -11,26 +12,39 @@ import { User } from '../user';
 })
 export class LoginjwtComponent implements OnInit {
 
+  token: any;
   msg: any;
 
-  authRequest:any={
-    username:"",
-    password:""
-  };
+  public date = new Date();
+  // role: Role = new Role(0,"");
+  unit: Unit = new Unit(0,"","","");
+  user: User = new User("", "", "", this.date, "", "",this.unit);
+
+  // authRequest:any={
+  //   username:"",
+  //   password:""
+  // };
 
   // public usernameChange(){
-  //   this.authRequest.username = $("#username").val();
+  //   this.user.username = $("#username").val();
   // }
 
   // public passwordChange(){
-  //   this.authRequest.password = $("#password").val();
+  //   this.user.password = $("#password").val();
   // }
 
   constructor(private service: LoginjwtService) { }
 
   ngOnInit(): void {
-    let resp = this.service.loginJWT(this.authRequest);
-    resp.subscribe(data => this.msg = data);
-    console.log(this.msg);
+
+    this.getToken();
+  }
+  
+  public getToken() {
+    let resp = this.service.loginJWT(this.user);
+    resp.subscribe((data)=>{
+      this.token = data;
+      localStorage.setItem('token',this.token);
+    });
   }
 }

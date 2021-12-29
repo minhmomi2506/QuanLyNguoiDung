@@ -9,7 +9,7 @@ import { User } from '../user';
 })
 export class RegisterService {
   private httpOptions = {
-    headers: new HttpHeaders({
+  headers: new HttpHeaders({
       'Content-Type': 'application/json',
       // Authorization: 'my-auth-token',
       // Authorization: 'Basic ' + btoa('username:password'),
