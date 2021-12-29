@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
+import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
 @RestController
@@ -22,11 +23,29 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private UserRepo userRepo;
+	
+	@GetMapping("/hello")
+	public String hello() {
+		return "hello";
+	}
+	
+	@GetMapping("/aaa")
+	public String aaa() {
+		return "aaa";
+	}
+	
 	/*REGISTER*/
 	@PostMapping("/register")
 	public String register(@RequestBody User user) {
 		try {
-			return userService.register(user);
+			if(userRepo.existsByUsername(user.getUsername())) {
+				return "this username has already been used!";
+			}
+			else {
+				return userService.register(user);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 			return "Something wrong happened!";
