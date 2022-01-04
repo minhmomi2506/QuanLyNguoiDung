@@ -19,8 +19,8 @@ export class LoginjwtService {
 
   constructor(private http: HttpClient) { }
 
-  public loginJWT(user: User) {
-    return this.http.post("http://localhost:8080/validate", user, { responseType: 'text' as 'json' });
+  public loginJWT(authRequest: any) {
+    return this.http.post("http://localhost:8080/validate", authRequest, { responseType: 'text' as 'json' });
   }
 
   public welcome(token: any) {

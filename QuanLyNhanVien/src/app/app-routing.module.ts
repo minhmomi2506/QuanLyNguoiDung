@@ -8,7 +8,7 @@ import { SearchDeleteComponent } from './search-delete/search-delete.component';
 import { UnitComponent } from './unit/unit.component';
 
 const routes: Routes = [
-  {path:"",redirectTo:"user",pathMatch:"full"},
+  {path:"",redirectTo:"login",pathMatch:"full"},
   {path:"user",component:SearchDeleteComponent},
   {path:"register",component:RegisterComponent},
   {path:"editUserInfo/:id",component:EdituserComponent},

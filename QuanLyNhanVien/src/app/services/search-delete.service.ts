@@ -2,41 +2,59 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { EditUserHistory } from '../edituserhistory';
+import { LoginjwtService } from './loginjwt.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class SearchDeleteService {
-  private httpOptions = {
+export class SearchDeleteService  {
+  private httpOptionPost = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // Authorization: 'my-auth-token',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      // Authorization: 'Basic ' + btoa('username:password'),
+    }),
+    responseType: 'text' as 'json'
+  };
+
+  private httpOptionGet = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
       // Authorization: 'Basic ' + btoa('username:password'),
     }),
   };
-  constructor(private http:HttpClient) { }
+  constructor(private http:HttpClient,private login:LoginjwtService) { }
 
   public getAllUsers(){
-    return this.http.get("http://localhost:8080/getAllUsers", this.httpOptions)
+    return this.http.get("http://localhost:8080/getAllUsers", this.httpOptionGet)
     .pipe(catchError(this.handleError));;
   }
 
   public getAllUsersByStr(str:string){
-    return this.http.get("http://localhost:8080/getAllUsersByStr/"+str);
+    return this.http.get("http://localhost:8080/getAllUsersByStr/"+str,this.httpOptionGet)
+    .pipe(catchError(this.handleError));
+  }
+
+  public getAllExcept1(id: number){
+    return this.http.get("http://localhost:8080/getAllExcept1/"+id, this.httpOptionGet)
+    .pipe(catchError(this.handleError));
   }
 
   public deleteUser(id:number){
-    return this.http.delete("http://localhost:8080/deleteUser/"+id);
+    return this.http.delete("http://localhost:8080/deleteUser/"+id,this.httpOptionGet)
+    .pipe(catchError(this.handleError));
   }
 
   public findUserById(id: number){
-    return this.http.get("http://localhost:8080/findUserById/"+id,this.httpOptions)
+    return this.http.get("http://localhost:8080/findUserById/"+id,this.httpOptionGet)
     .pipe(catchError(this.handleError));
   }
 
   public editUser(editUserHistory:EditUserHistory, id: any){
-    return this.http.put("http://localhost:8080/editUser/"+id,editUserHistory, { responseType: 'text' as 'json' });
+    return this.http.put("http://localhost:8080/editUser/"+id,editUserHistory,this.httpOptionPost)
+    .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
