@@ -10,16 +10,17 @@
         <div id="custom-search-input">
             <div class="input-group col-md-12" style="text-align: center">
                 <input type="text" class="search-query form-control" placeholder="Search With Email Address"
-                    name="email" [(ngModel)]="str">
+                    name="email" [(ngModel)]="str" (input)="findUserByStr()">
                 <span class="input-group-btn">
-                    <button class="btn btn-danger" type="button" (click)="findUserByStr()">
+                    <!-- <button class="btn btn-danger" type="button" (click)="findUserByStr()">
                         <span class=" glyphicon glyphicon-search"></span>
-                    </button>
+                    </button> -->
                 </span>
             </div>
         </div>
     </div>
 </div>
+<button (click)="logout()">Log out</button>
 <div class="container">
     <div class="container">
         <div class="row col-md-6 col-md-offset-2 custyle">
@@ -32,9 +33,8 @@
                         <th>Description</th>
                         <th>Address</th>
                         <th>Create Date</th>
-                        <th>Role</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th id="editUser" *ngIf="role === 'ROLE_ADMIN'">Edit</th>
+                        <th *ngIf="role === 'ROLE_ADMIN'">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -45,11 +45,9 @@
                         <td>{{user.description}}</td>
                         <td>{{user.address}}</td>
                         <td>{{user.createDate}}</td>
-                        <td>{{user.role}}</td>
-                        <td style="width: 200px;"><a class="fa fa-pencil"  style="color: green;" data-toggle="modal"
-                                data-target="#editUserModal" (click)="editUser(user.id)"></a>
+                        <td style="width: 200px;" *ngIf="role === 'ROLE_ADMIN'"><a class="fa fa-pencil"  style="color: green;" [routerLink]="['/editUserInfo', user.id]"></a>
                         </td>
-                        <td><a class="fas fa-trash" (click)="deleteUser(user.id)" style="color: red;"></a></td>
+                        <td *ngIf="role === 'ROLE_ADMIN'"><a class="fas fa-trash" (click)="deleteUser(user.id)" style="color: red;"></a></td>
                     </tr>
                 </tbody>
             </table>

@@ -39,7 +39,7 @@
                         <label for="role"><span class="req">* </span> Unit: </label>
                         <select (change)="unitIdChange()" id="userUnitId" required="required">
                             <option></option>
-                            <option *ngFor="let unit of units" value="{{unit.id}}" text="{{unit.unitName}}"></option>
+                            <option *ngFor="let unit2 of units" value="{{unit2.id}}" text="{{unit2.unitName}}"></option>
                         </select>
                     </div>
 
@@ -92,8 +92,7 @@
                         <td>{{unit.unitName}}</td>
                         <td>{{unit.description}}</td>
                         <td>{{unit.createDate}}</td>
-                        <td style="width: 200px;"><a class="fa fa-pencil" data-toggle="modal"
-                                data-target="#editUserModal"></a>
+                        <td style="width: 200px;"><a class="fa fa-pencil" [routerLink]="['/editUnit', unit.id]"></a>
                         </td>
                         <td><a class="fas fa-trash" (click)="deleteUnit(unit.id)" style="color: red;"></a></td>
                     </tr>

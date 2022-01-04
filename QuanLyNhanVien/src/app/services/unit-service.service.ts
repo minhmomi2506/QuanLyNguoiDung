@@ -9,10 +9,19 @@ import { Unit } from '../units';
 })
 export class UnitServiceService {
 
-  private httpOptions = {
+  private httpOptionPost = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // Authorization: 'my-auth-token',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      // Authorization: 'Basic ' + btoa('username:password'),
+    }),
+    responseType: 'text' as 'json'
+  };
+
+  private httpOptionGet = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
       // Authorization: 'Basic ' + btoa('username:password'),
     }),
   };
@@ -20,25 +29,28 @@ export class UnitServiceService {
   constructor(private http:HttpClient) { }
 
   public getAllUnits(){
-    return this.http.get<any>("http://localhost:8080/getAllUnits", this.httpOptions)
+    return this.http.get<any>("http://localhost:8080/getAllUnits", this.httpOptionGet)
     .pipe(catchError(this.handleError));
   }
 
   public addUnit(unit: Unit,fatherUnitId:number){
-    return this.http.post("http://localhost:8080/addUnit/"+fatherUnitId,unit, { responseType: 'text' as 'json' });
+    return this.http.post("http://localhost:8080/addUnit/"+fatherUnitId,unit, this.httpOptionPost)
+    .pipe(catchError(this.handleError));
   }
 
   public deleteUnit(id:number){
-    return this.http.delete("http://localhost:8080/deleteUnit/"+id);
+    return this.http.delete("http://localhost:8080/deleteUnit/"+id, this.httpOptionGet)
+    .pipe(catchError(this.handleError));
   }
 
   public findUnitById(id: number){
-    return this.http.get<any>("http://localhost:8080/findUnitById/" +id, this.httpOptions)
+    return this.http.get<any>("http://localhost:8080/findUnitById/" +id, this.httpOptionGet)
     .pipe(catchError(this.handleError));
   }
 
   public editUnit(editUnitHistory:EditUnitHistory, id: any){
-    return this.http.put("http://localhost:8080/editUnit/"+id,editUnitHistory, { responseType: 'text' as 'json' });
+    return this.http.put("http://localhost:8080/editUnit/"+id,editUnitHistory, this.httpOptionPost)
+    .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {

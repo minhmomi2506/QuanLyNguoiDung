@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { data } from 'jquery';
 import { UnitServiceService } from '../services/unit-service.service';
 import { Unit } from '../units';
@@ -16,15 +17,20 @@ export class UnitComponent implements OnInit {
   str: any;
   msg: any;
 
-  constructor(private service: UnitServiceService, private dialog: MatDialog) {
+  constructor(private service: UnitServiceService, private dialog: MatDialog, private router: Router) {
 
   }
 
   ngOnInit(): void {
-    let resp = this.service.getAllUnits();
-    resp.subscribe((data) => {
-      this.units = data;
-    })
+    if (localStorage.getItem('token') != null) {
+      let resp = this.service.getAllUnits();
+      resp.subscribe((data) => {
+        this.units = data;
+      });
+    }
+    else {
+      this.router.navigate(['login']);
+    }
 
   }
 
@@ -34,7 +40,7 @@ export class UnitComponent implements OnInit {
   }
 
   public addUnit() {
-    let resp = this.service.addUnit(this.unit,this.unit1.id);
+    let resp = this.service.addUnit(this.unit, this.unit1.id);
     resp.subscribe((data) => {
       this.msg = data;
       this.ngOnInit();
