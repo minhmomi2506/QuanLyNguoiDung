@@ -13,33 +13,37 @@ import org.springframework.stereotype.Service;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
+import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.EditUserHistoryRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
+import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@Autowired
 	private RoleRepo roleRepo;
-	
+
+	@Autowired
+	private UnitRepo unitRepo;
+
 	@Autowired
 	private EditUserHistoryRepo editUserHistoryRepo;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userRepo.findUserByUsername(username);
-		if(user == null) {
+		if (user == null) {
 			throw new UsernameNotFoundException("Khong tim thay");
-		}
-		else {
+		} else {
 			return new MyUserDetail(user);
 		}
 	}
-	
+
 	/* REGISTER */
 	public String register(User user) {
 		long millis = System.currentTimeMillis();
@@ -48,9 +52,17 @@ public class UserService implements UserDetailsService{
 		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 		String encodedPassword = encode.encode(user.getPassword());
 		user.setPassword(encodedPassword);
-		Role role = roleRepo.findRoleByRoleName("USER");
+		Role role = roleRepo.findRoleByRoleName("ROLE_USER");
 		user.setRole(role);
 		userRepo.save(user);
+//		EditUserHistory editUserHistory = new EditUserHistory();
+//		editUserHistory.setUser(user);
+//		editUserHistory.setUserFullNameEdit(user.getFullName());
+//		editUserHistory.setUserAddressEdit(user.getAddress());
+//		editUserHistory.setUserDateOfBirthEdit(user.getDateOfBirth());
+//		editUserHistory.setUserDescriptionEdit(user.getDescription());
+//		editUserHistory.setUpdateDate(date);
+//		editUserHistoryRepo.save(editUserHistory);
 		return "your acc has been successfully registered!";
 	}
 
@@ -90,9 +102,6 @@ public class UserService implements UserDetailsService{
 		user1.setAddress(editUserHistory.getUserAddressEdit());
 		user1.setDescription(editUserHistory.getUserDescriptionEdit());
 		user1.setDateOfBirth(editUserHistory.getUserDateOfBirthEdit());
-//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//		String encodedPassword = encoder.encode(password);
-//		user.setPassword(encodedPassword);
 		userRepo.save(user1);
 		return "Edit user successfully!";
 	}
@@ -101,5 +110,13 @@ public class UserService implements UserDetailsService{
 	public List<User> deleteUser(Long id) {
 		userRepo.deleteById(id);
 		return userRepo.findAll();
+	}
+
+	/* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
+	public List<Unit> getAllExcept1(Long id) {
+		User user = userRepo.findUserById(id);
+		List<Unit> units = unitRepo.findAll();
+		units.remove(user.getUnit());
+		return units;
 	}
 }

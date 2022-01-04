@@ -18,23 +18,23 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 public class ValidateController {
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private TokenAuthenticationService tokenAuthen;
 
+	/* LOGIN USING JWT */
 	@PostMapping("/validate")
 	public String login(@RequestBody User user) {
 		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
 		User user1 = userRepo.findUserByUsername(user.getUsername());
 		boolean checkPassword = encode.matches(user.getPassword(), user1.getPassword());
-		if(user.getUsername().equals(user1.getUsername()) && checkPassword == true) {
+		if (user.getUsername().equals(user1.getUsername()) && checkPassword == true) {
 			UserDetails userDetail = userService.loadUserByUsername(user.getUsername());
 			return tokenAuthen.generateToken(userDetail);
-		}
-		else {
+		} else {
 			return "Tài khoản không đúng!";
 		}
 	}

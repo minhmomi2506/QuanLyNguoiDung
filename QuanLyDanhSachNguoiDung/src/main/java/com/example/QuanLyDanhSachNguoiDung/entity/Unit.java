@@ -29,36 +29,30 @@ public class Unit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column
 	private String unitId;
-	
+
 	@Column
 	private String unitName;
-	
+
 	@Column
 	private String description;
-	
+
 	@Column
 	private Date createDate;
-	
-	@JsonManagedReference(value="user-unit")
+
+	@JsonManagedReference(value = "user-unit")
 	@OneToMany(mappedBy = "unit")
 	private List<User> users;
-	
-	@JsonManagedReference(value="unit-edit")
+
+	@JsonManagedReference(value = "unit-edit")
 	@OneToMany(mappedBy = "unit", cascade = { CascadeType.ALL })
 	private List<EditUnitHistory> editUnitHistories;
-	
-	@JsonBackReference(value="unit-unit")
+
+	@JsonBackReference(value = "unit-unit")
 	@ManyToOne
 	@JoinColumn(name = "unit_father_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Unit fatherUnit;
-	
-//	@JsonBackReference
-//	@ManyToOne
-//	@JoinColumn(name = "crete_user_id")
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	private User createUser;
 }

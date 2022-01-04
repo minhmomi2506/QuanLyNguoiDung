@@ -12,10 +12,10 @@ public interface UnitService {
 	List<Unit> getAll();
 
 	String addUnit(Unit unit, Long fatherUnitId);
-	
+
 	List<Unit> deleteUnit(Long id);
-	
+
 	Unit fintUnitById(Long id);
-	
+
 	String editUnit(Long id, EditUnitHistory editUnitHistory);
 }
