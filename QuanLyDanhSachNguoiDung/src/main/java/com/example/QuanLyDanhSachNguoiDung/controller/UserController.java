@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
+import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
@@ -22,28 +23,27 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 public class UserController {
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private UserRepo userRepo;
-	
+
 	@GetMapping("/hello")
 	public String hello() {
 		return "hello";
 	}
-	
+
 	@GetMapping("/aaa")
 	public String aaa() {
 		return "aaa";
 	}
-	
-	/*REGISTER*/
+
+	/* REGISTER */
 	@PostMapping("/register")
 	public String register(@RequestBody User user) {
 		try {
-			if(userRepo.existsByUsername(user.getUsername())) {
+			if (userRepo.existsByUsername(user.getUsername())) {
 				return "this username has already been used!";
-			}
-			else {
+			} else {
 				return userService.register(user);
 			}
 		} catch (Exception e) {
@@ -51,35 +51,41 @@ public class UserController {
 			return "Something wrong happened!";
 		}
 	}
-	
-	/*GET ALL USERS*/
+
+	/* GET ALL USERS */
 	@GetMapping("/getAllUsers")
-	public List<User> getAllUsers(){
+	public List<User> getAllUsers() {
 		return userService.getAll();
 	}
-	
-	/*FIND USER BY ID*/
+
+	/* FIND USER BY ID */
 	@GetMapping("/findUserById/{id}")
 	public User findUserById(@PathVariable Long id) {
 		return userService.findUserById(id);
 	}
-	
-	/*GET ALL USERS BY NAME*/
+
+	/* GET ALL USERS BY NAME */
 	@GetMapping("/getAllUsersByStr/{str}")
-	public List<User> getAllUsersByFullName(@PathVariable String str){
+	public List<User> getAllUsersByFullName(@PathVariable String str) {
 		return userService.getAllUsersByString(str);
 	}
-	
-	/*EDIT USER*/
+
+	/* EDIT USER */
 	@PutMapping("/editUser/{id}")
 	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory) {
 		return userService.editUserInformation(id, editUserHistory);
 	}
-	
-	/*DELETE USER*/
+
+	/* DELETE USER */
 	@DeleteMapping("/deleteUser/{id}")
 	public List<User> deleteUser(@PathVariable Long id) {
 		return userService.deleteUser(id);
 	}
-	
+
+	/* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
+	@GetMapping("/getAllExcept1/{id}")
+	public List<Unit> getAllExcept1(@PathVariable Long id) {
+		return userService.getAllExcept1(id);
+	}
+
 }

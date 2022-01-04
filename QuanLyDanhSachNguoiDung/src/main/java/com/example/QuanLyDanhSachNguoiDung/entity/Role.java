@@ -22,11 +22,11 @@ public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column
 	private String roleName;
-	
-	@JsonManagedReference(value="user-role")
+
+	@JsonManagedReference(value = "user-role")
 	@OneToMany(mappedBy = "role", cascade = { CascadeType.ALL })
 	private List<User> users;
 }

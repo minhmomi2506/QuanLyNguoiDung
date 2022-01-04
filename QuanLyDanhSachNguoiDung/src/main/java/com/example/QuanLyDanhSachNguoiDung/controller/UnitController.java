@@ -21,34 +21,34 @@ import com.example.QuanLyDanhSachNguoiDung.service.UnitService;
 public class UnitController {
 	@Autowired
 	private UnitService unitService;
-	
-	/*ADD UNIT*/
+
+	/* ADD UNIT */
 	@PostMapping("/addUnit/{fatherUnitId}")
 	public String addUnit(@RequestBody Unit unit, @PathVariable Long fatherUnitId) {
 		return unitService.addUnit(unit, fatherUnitId);
 	}
-	
-	/*GET ALL UNITS*/
+
+	/* GET ALL UNITS */
 	@GetMapping("/getAllUnits")
-	public List<Unit> getAllUnits(){
+	public List<Unit> getAllUnits() {
 		return unitService.getAll();
 	}
-	
-	/*FIND UNIT BY ID*/
+
+	/* FIND UNIT BY ID */
 	@GetMapping("/findUnitById/{id}")
 	public Unit findUnitById(@PathVariable Long id) {
 		return unitService.fintUnitById(id);
 	}
-	
-	/*EDIT UNIT*/
+
+	/* EDIT UNIT */
 	@PutMapping("/editUnit/{id}")
 	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory) {
 		return unitService.editUnit(id, editUnitHistory);
 	}
-	
-	/*DELETE UNIT*/
+
+	/* DELETE UNIT */
 	@DeleteMapping("/deleteUnit/{id}")
-	public List<Unit> deleteUnit(@PathVariable Long id){
+	public List<Unit> deleteUnit(@PathVariable Long id) {
 		return unitService.deleteUnit(id);
 	}
 }

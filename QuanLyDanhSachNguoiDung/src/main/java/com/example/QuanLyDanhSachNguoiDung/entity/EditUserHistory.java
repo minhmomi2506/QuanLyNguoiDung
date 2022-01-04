@@ -25,23 +25,23 @@ public class EditUserHistory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@Column
 	private String userFullNameEdit;
-	
+
 	@Column
 	private String userDescriptionEdit;
-	
+
 	@Column
 	private String userAddressEdit;
-	
+
 	@Column
 	private java.sql.Date userDateOfBirthEdit;
-	
+
 	@Column
 	private Date updateDate;
-	
-	@JsonBackReference(value="user-edit")
+
+	@JsonBackReference(value = "user-edit")
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
