@@ -10,13 +10,13 @@ import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 
 @Component
 public class RoleServiceImp implements RoleService {
-	
+
 	@Autowired
 	private RoleRepo roleRepo;
 
+	/* GET ALL ROLES */
 	@Override
 	public List<Role> getAll() {
-		// TODO Auto-generated method stub
 		return roleRepo.findAll();
 	}
 

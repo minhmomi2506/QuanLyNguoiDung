@@ -1,7 +1,6 @@
 package com.example.QuanLyDanhSachNguoiDung.config;
 
 import java.io.IOException;
-import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -27,30 +25,30 @@ import lombok.extern.slf4j.Slf4j;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserService customUserService;
-	
+
 	@Autowired
 	private TokenAuthenticationService tokenAuthen;
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		try {
 			String jwt = getJwtFromRequest(request);
 			if (StringUtils.hasText(jwt)) {
-	            // Lấy id user từ chuỗi jwt
+				// Lấy id user từ chuỗi jwt
 				String username = tokenAuthen.getUsernameFromToken(jwt);
-	            // Lấy thông tin người dùng từ id
-	            UserDetails userDetails = customUserService.loadUserByUsername(username);
-	            if(userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-	                // Nếu người dùng hợp lệ, set thông tin cho Seturity Context
-	                UsernamePasswordAuthenticationToken
-	                        authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-	                String authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
-	                System.out.println("Authorities granted : " + authorities);
-	                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-	                SecurityContextHolder.getContext().setAuthentication(authentication);
-	            }
-	        }
+				// Lấy thông tin người dùng từ id
+				UserDetails userDetails = customUserService.loadUserByUsername(username);
+				if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+					// Nếu người dùng hợp lệ, set thông tin cho Seturity Context
+					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+							userDetails, null, userDetails.getAuthorities());
+//	                String authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
+//	                System.out.println("Authorities granted : " + authorities);
+					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+					SecurityContextHolder.getContext().setAuthentication(authentication);
+				}
+			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
 			log.info("error");

@@ -15,10 +15,10 @@ import com.example.QuanLyDanhSachNguoiDung.service.RoleService;
 public class RoleController {
 	@Autowired
 	private RoleService roleService;
-	
-	/*GET ALL ROLES*/
+
+	/* GET ALL ROLES */
 	@GetMapping("/getAllRoles")
-	public List<Role> getAllUsers(){
+	public List<Role> getAllUsers() {
 		return roleService.getAll();
 	}
 }
