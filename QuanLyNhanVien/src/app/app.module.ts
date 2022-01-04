@@ -14,6 +14,7 @@ import { EditunitComponent } from './editunit/editunit.component';
 import { LoginjwtComponent } from './loginjwt/loginjwt.component';
 import { RegisterService } from './services/register.service';
 import { SearchDeleteService } from './services/search-delete.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 @NgModule({
   declarations: [
     AppComponent,

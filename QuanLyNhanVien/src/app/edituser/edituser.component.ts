@@ -16,6 +16,7 @@ export class EdituserComponent implements OnInit {
   editUserHistory: EditUserHistory = new EditUserHistory("", "", "",this.date);
   id: number = 0;
   user: any;
+  units: any;
   msg: any;
   constructor(private service: SearchDeleteService, private router: Router, private route: ActivatedRoute) { }
 
@@ -28,6 +29,8 @@ export class EdituserComponent implements OnInit {
       $("#description").val(this.user.description);
       $("#dateOfBirth").val(this.user.dateOfBirth);
       $("#address").val(this.user.address);
+      // $("#userUnitId").val(this.user.unit.id);
+      // $("#userUnitId").text(this.user.unit.unitName);
       this.editUserHistory.userFullNameEdit = this.user.fullName;
       this.editUserHistory.userDescriptionEdit = this.user.description;
       this.editUserHistory.userAddressEdit = this.user.address;

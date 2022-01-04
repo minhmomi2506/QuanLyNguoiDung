@@ -27,15 +27,15 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     // let resp = this.service.getAllRoles();
     // resp.subscribe((data) => this.roles = data);
-    let resp1 = this.service.getAllUnits();
-    resp1.subscribe((data) => this.units = data);
+    let resp = this.service.getAllUnits();
+    resp.subscribe((data) => this.units = data);
     // $("#userRoleId").prop("selectedIndex", -1);
   }
-  public roleIdChange() {
-    this.role.id = Number($("#userRoleId").val());
-    if(this.role.id == 0){
-    }
-  }
+  // public roleIdChange() {
+  //   this.role.id = Number($("#userRoleId").val());
+  //   if(this.role.id == 0){
+  //   }
+  // }
 
   public unitIdChange() {
     this.unit.id = Number($("#userUnitId").val());

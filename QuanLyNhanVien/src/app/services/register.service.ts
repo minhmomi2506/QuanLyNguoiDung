@@ -8,10 +8,19 @@ import { User } from '../user';
   providedIn: 'root'
 })
 export class RegisterService {
-  private httpOptions = {
-  headers: new HttpHeaders({
+  private httpOptionPost = {
+    headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      // Authorization: 'my-auth-token',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
+      // Authorization: 'Basic ' + btoa('username:password'),
+    }),
+    responseType: 'text' as 'json'
+  };
+
+  private httpOptionGet = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + localStorage.getItem('token'),
       // Authorization: 'Basic ' + btoa('username:password'),
     }),
   };
@@ -19,7 +28,8 @@ export class RegisterService {
   constructor(private http: HttpClient) { }
 
   public doRegistration(user: User) {
-    return this.http.post("http://localhost:8080/register", user, { responseType: 'text' as 'json' });
+    return this.http.post("http://localhost:8080/register", user, this.httpOptionPost)
+      ;
   }
 
   // public getAllRoles(){
@@ -27,9 +37,8 @@ export class RegisterService {
   //     .pipe(catchError(this.handleError));
   // }
 
-  public getAllUnits(){
-    return this.http.get<any>("http://localhost:8080/getAllUnits", this.httpOptions)
-    .pipe(catchError(this.handleError));
+  public getAllUnits() {
+    return this.http.get("http://localhost:8080/getAllUnits", this.httpOptionGet);
   }
 
   private handleError(error: HttpErrorResponse) {
