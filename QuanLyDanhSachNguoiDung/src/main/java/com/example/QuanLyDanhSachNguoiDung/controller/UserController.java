@@ -3,6 +3,7 @@ package com.example.QuanLyDanhSachNguoiDung.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +17,28 @@ import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
+import com.example.QuanLyDanhSachNguoiDung.service.MyUserDetail;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
+//	@Autowired
+//	private TokenAuthenticationService tokenAuthen;
+
 	@Autowired
 	private UserService userService;
 
 	@Autowired
 	private UserRepo userRepo;
+
+	/* GET LOGGED IN USER INFO */
+	public User getLoggedInUser(Authentication authentication) {
+		MyUserDetail userDetails = (MyUserDetail) authentication.getPrincipal();
+		String username = userDetails.getUsername();
+		User user = userRepo.findUserByUsername(username);
+		return user;
+	}
 
 	@GetMapping("/hello")
 	public String hello() {
@@ -47,7 +60,6 @@ public class UserController {
 				return userService.register(user);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
 			return "Something wrong happened!";
 		}
 	}
@@ -72,8 +84,10 @@ public class UserController {
 
 	/* EDIT USER */
 	@PutMapping("/editUser/{id}")
-	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory) {
-		return userService.editUserInformation(id, editUserHistory);
+	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory,
+			Authentication authentication) {
+		User user = getLoggedInUser(authentication);
+		return userService.editUserInformation(id, editUserHistory, user);
 	}
 
 	/* DELETE USER */

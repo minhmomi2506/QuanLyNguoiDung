@@ -88,12 +88,13 @@ public class UnitServiceImp implements UnitService {
 
 	/* EDIT UNIT */
 	@Override
-	public String editUnit(Long id, EditUnitHistory editUnitHistory) {
+	public String editUnit(Long id, EditUnitHistory editUnitHistory, User user) {
 		Unit unit1 = unitRepo.findUnitById(id);
 		long millis = System.currentTimeMillis();
 		Date date = new Date(millis);
 		editUnitHistory.setUnit(unit1);
 		editUnitHistory.setUpdateDate(date);
+		editUnitHistory.setUpdateUserName(user.getFullName());
 		editUnitHistoryRepo.save(editUnitHistory);
 		unit1.setUnitId(editUnitHistory.getUnitIdEdit());
 		unit1.setUnitName(editUnitHistory.getUnitNameEdit());

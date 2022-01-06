@@ -3,6 +3,7 @@ package com.example.QuanLyDanhSachNguoiDung.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
+import com.example.QuanLyDanhSachNguoiDung.entity.User;
+import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
+import com.example.QuanLyDanhSachNguoiDung.service.MyUserDetail;
 import com.example.QuanLyDanhSachNguoiDung.service.UnitService;
 
 @RestController
@@ -21,6 +25,17 @@ import com.example.QuanLyDanhSachNguoiDung.service.UnitService;
 public class UnitController {
 	@Autowired
 	private UnitService unitService;
+
+	@Autowired
+	private UserRepo userRepo;
+	
+	/* GET LOGGED IN USER INFO */
+	public User getLoggedInUser(Authentication authentication) {
+		MyUserDetail userDetails = (MyUserDetail) authentication.getPrincipal();
+		String username = userDetails.getUsername();
+		User user = userRepo.findUserByUsername(username);
+		return user;
+	}
 
 	/* ADD UNIT */
 	@PostMapping("/addUnit/{fatherUnitId}")
@@ -42,8 +57,10 @@ public class UnitController {
 
 	/* EDIT UNIT */
 	@PutMapping("/editUnit/{id}")
-	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory) {
-		return unitService.editUnit(id, editUnitHistory);
+	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory,
+			Authentication authentication) {
+		User user = getLoggedInUser(authentication);
+		return unitService.editUnit(id, editUnitHistory, user);
 	}
 
 	/* DELETE UNIT */

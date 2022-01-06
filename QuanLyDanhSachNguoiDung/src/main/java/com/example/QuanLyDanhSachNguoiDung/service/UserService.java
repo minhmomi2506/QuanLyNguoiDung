@@ -33,6 +33,12 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private EditUserHistoryRepo editUserHistoryRepo;
+	
+//	@Autowired
+//	private JwtAuthenticationFilter jwtAuthenFilter;
+//	
+//	@Autowired
+//	private TokenAuthenticationService tokenAuthen;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,6 +49,14 @@ public class UserService implements UserDetailsService {
 			return new MyUserDetail(user);
 		}
 	}
+	
+//	public User getUserFromJwt(HttpServletRequest request) {
+//		String jwt = jwtAuthenFilter.getJwtFromRequest(request);
+//		String username = tokenAuthen.getUsernameFromToken(jwt);
+//		// Lấy thông tin người dùng từ id
+//		User user = userRepo.findUserByUsername(username);
+//		return user;
+//	}
 
 	/* REGISTER */
 	public String register(User user) {
@@ -68,6 +82,8 @@ public class UserService implements UserDetailsService {
 
 	/* GET ALL USERS */
 	public List<User> getAll() {
+//		User user = getUserFromJwt(request);
+//		System.out.println(user);
 		return userRepo.findAll();
 	}
 
@@ -91,12 +107,13 @@ public class UserService implements UserDetailsService {
 	}
 
 	/* EDIT USER */
-	public String editUserInformation(Long roleId, EditUserHistory editUserHistory) {
+	public String editUserInformation(Long roleId, EditUserHistory editUserHistory, User user) {
 		User user1 = userRepo.findUserById(roleId);
 		long millis = System.currentTimeMillis();
 		Date date = new Date(millis);
 		editUserHistory.setUser(user1);
 		editUserHistory.setUpdateDate(date);
+		editUserHistory.setUpdateUserName(user.getFullName());
 		editUserHistoryRepo.save(editUserHistory);
 		user1.setFullName(editUserHistory.getUserFullNameEdit());
 		user1.setAddress(editUserHistory.getUserAddressEdit());
