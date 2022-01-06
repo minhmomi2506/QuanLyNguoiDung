@@ -29,8 +29,8 @@ export class EditunitComponent implements OnInit {
       this.editUnitHistory.unitIdEdit = this.unit.unitId;
       this.editUnitHistory.unitNameEdit = this.unit.unitName;
       this.editUnitHistory.unitDescriptionEdit = this.unit.description;
-      console.log(this.editUnitHistory);
     });
+    
   }
 
   public editUnit(){

@@ -17,20 +17,16 @@ export class SearchDeleteComponent implements OnInit{
   str: any;
   token: any;
   role: any;
-  constructor(private service: SearchDeleteService, private router: Router,private loginService:LoginjwtService) { }
+  constructor(private service: SearchDeleteService, private router: Router) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('token') != ''){
     let resp = this.service.getAllUsers();
-    resp.subscribe((data) => this.users = data);
+    resp.subscribe((data) => console.log(data));
     this.token = localStorage.getItem('token');
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(this.token);
     this.role = decodedToken.role;
-    }
-    else{
-      this.router.navigate(['login']);
-    }
+    localStorage.setItem('role',this.role);
   }
 
   public findUserByStr() {
@@ -57,6 +53,10 @@ export class SearchDeleteComponent implements OnInit{
   }
   public register() {
     this.router.navigate(['register']);
+  }
+
+  public unit(){
+    this.router.navigate(['unit']);
   }
 
 }
