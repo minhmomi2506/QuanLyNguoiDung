@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
+import com.example.QuanLyDanhSachNguoiDung.entity.User;
 
 @Service
 public interface UnitService {
@@ -17,5 +18,5 @@ public interface UnitService {
 
 	Unit fintUnitById(Long id);
 
-	String editUnit(Long id, EditUnitHistory editUnitHistory);
+	String editUnit(Long id, EditUnitHistory editUnitHistory, User user);
 }

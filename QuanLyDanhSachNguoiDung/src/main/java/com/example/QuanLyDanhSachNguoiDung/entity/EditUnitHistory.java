@@ -43,6 +43,9 @@ public class EditUnitHistory {
 	@JoinColumn(name = "unit_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Unit unit;
+	
+	@Column
+	private String updateUserName;
 
 //	@JsonBackReference(value="unitEdit-unit")
 //	@ManyToOne

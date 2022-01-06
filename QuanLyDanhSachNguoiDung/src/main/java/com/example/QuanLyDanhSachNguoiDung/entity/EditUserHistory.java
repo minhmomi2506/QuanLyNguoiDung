@@ -46,4 +46,7 @@ public class EditUserHistory {
 	@JoinColumn(name = "user_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
+	
+	@Column
+	private String updateUserName;
 }
