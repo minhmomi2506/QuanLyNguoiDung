@@ -5,16 +5,18 @@ import { EdituserComponent } from './edituser/edituser.component';
 import { LoginjwtComponent } from './loginjwt/loginjwt.component';
 import { RegisterComponent } from './register/register.component';
 import { SearchDeleteComponent } from './search-delete/search-delete.component';
+import { AuthGuard } from './shared/auth.guard';
+import { RoleGuard } from './shared/role.guard';
 import { UnitComponent } from './unit/unit.component';
 
 const routes: Routes = [
-  {path:"",redirectTo:"login",pathMatch:"full"},
-  {path:"user",component:SearchDeleteComponent},
-  {path:"register",component:RegisterComponent},
-  {path:"editUserInfo/:id",component:EdituserComponent},
-  {path:"editUnit/:id",component:EditunitComponent},
-  {path:"unit",component:UnitComponent},
-  {path:"login",component:LoginjwtComponent}
+  { path: "", redirectTo: "user", pathMatch: "full" },
+  { path: "user", component: SearchDeleteComponent, canActivate: [AuthGuard] },
+  { path: "register", component: RegisterComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: "editUserInfo/:id", component: EdituserComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: "editUnit/:id", component: EditunitComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: "unit", component: UnitComponent, canActivate: [AuthGuard, RoleGuard] },
+  { path: "login", component: LoginjwtComponent }
 ];
 
 @NgModule({
