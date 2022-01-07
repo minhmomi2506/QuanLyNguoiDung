@@ -18,6 +18,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import lombok.Data;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @Entity
 @Table
 @Data

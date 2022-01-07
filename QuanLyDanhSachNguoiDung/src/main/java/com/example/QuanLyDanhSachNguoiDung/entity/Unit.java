@@ -17,11 +17,16 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
+
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @Entity
 @Table
 @Data
@@ -46,11 +51,10 @@ public class Unit {
 	@OneToMany(mappedBy = "unit")
 	private List<User> users;
 
-	@JsonManagedReference(value = "unit-edit")
+//	@JsonManagedReference(value = "unit-edit")
 	@OneToMany(mappedBy = "unit", cascade = { CascadeType.ALL })
 	private List<EditUnitHistory> editUnitHistories;
 
-	@JsonBackReference(value = "unit-unit")
 	@ManyToOne
 	@JoinColumn(name = "unit_father_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)

@@ -8,6 +8,11 @@ import org.springframework.stereotype.Repository;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 

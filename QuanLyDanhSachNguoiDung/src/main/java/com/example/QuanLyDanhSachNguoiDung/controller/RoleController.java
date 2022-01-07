@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.service.RoleService;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @RestController
 @CrossOrigin(origins = "*")
 public class RoleController {

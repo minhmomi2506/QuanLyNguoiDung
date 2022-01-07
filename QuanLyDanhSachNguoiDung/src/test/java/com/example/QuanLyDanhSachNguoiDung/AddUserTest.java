@@ -38,7 +38,7 @@ public class AddUserTest {
 		user.setFullName("Phạm Vũ Nhật Anh");
 		user.setCreateDate(date);
 		user.setAddress("Bạch Đằng, Hà Nội");
-		user.setRole(role);
+		user.getRoles().add(role);
 		userRepo.save(user);
 		assertThat(user.getId() > 0);
 	}

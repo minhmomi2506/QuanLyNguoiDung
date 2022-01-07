@@ -1,5 +1,6 @@
 package com.example.QuanLyDanhSachNguoiDung.controller;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,11 @@ import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @RestController
 @CrossOrigin(origins = "*")
 public class ValidateController {
