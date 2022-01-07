@@ -20,6 +20,11 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL
+ */
 @Component
 @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
@@ -43,7 +48,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 					// Nếu người dùng hợp lệ, set thông tin cho Security Context
 					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
 							userDetails, null, userDetails.getAuthorities());
-//	                String authorities = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining());
+//					Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
 //	                System.out.println("Authorities granted : " + authorities);
 					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 					SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -51,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			log.info("error");
+			log.error("error");
 		}
 	}
 
@@ -60,8 +65,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 		// Kiểm tra xem header Authorization có chứa thông tin jwt không
 		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
 			return bearerToken.substring(7);
-		} 
-		else
+		} else
 			return null;
 	}
 }

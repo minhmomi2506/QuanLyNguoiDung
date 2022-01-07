@@ -20,6 +20,11 @@ import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL
+ */
 @Service
 public class UserService implements UserDetailsService {
 	@Autowired
@@ -33,7 +38,7 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private EditUserHistoryRepo editUserHistoryRepo;
-	
+
 //	@Autowired
 //	private JwtAuthenticationFilter jwtAuthenFilter;
 //	
@@ -49,7 +54,7 @@ public class UserService implements UserDetailsService {
 			return new MyUserDetail(user);
 		}
 	}
-	
+
 //	public User getUserFromJwt(HttpServletRequest request) {
 //		String jwt = jwtAuthenFilter.getJwtFromRequest(request);
 //		String username = tokenAuthen.getUsernameFromToken(jwt);
@@ -67,7 +72,7 @@ public class UserService implements UserDetailsService {
 		String encodedPassword = encode.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		Role role = roleRepo.findRoleByRoleName("ROLE_USER");
-		user.setRole(role);
+		user.getRoles().add(role);
 		userRepo.save(user);
 //		EditUserHistory editUserHistory = new EditUserHistory();
 //		editUserHistory.setUser(user);
@@ -82,8 +87,6 @@ public class UserService implements UserDetailsService {
 
 	/* GET ALL USERS */
 	public List<User> getAll() {
-//		User user = getUserFromJwt(request);
-//		System.out.println(user);
 		return userRepo.findAll();
 	}
 
@@ -103,6 +106,7 @@ public class UserService implements UserDetailsService {
 
 	/* FIND USER BY ID */
 	public User findUserById(Long id) {
+		System.out.println(userRepo.findUserById(id).getUnit().getUnitName());
 		return userRepo.findUserById(id);
 	}
 
@@ -119,6 +123,7 @@ public class UserService implements UserDetailsService {
 		user1.setAddress(editUserHistory.getUserAddressEdit());
 		user1.setDescription(editUserHistory.getUserDescriptionEdit());
 		user1.setDateOfBirth(editUserHistory.getUserDateOfBirthEdit());
+		user1.setUnit(user.getUnit());
 		userRepo.save(user1);
 		return "Edit user successfully!";
 	}

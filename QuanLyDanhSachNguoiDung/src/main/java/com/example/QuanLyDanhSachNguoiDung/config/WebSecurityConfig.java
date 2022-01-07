@@ -9,6 +9,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,14 +38,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests()
-				.antMatchers("/validate", "/register", "/getAllRoles", "/getAllUnits", "/findUserById/**").permitAll()
+		http.csrf().disable().authorizeRequests().antMatchers("/validate", "/register", "/findUserById/**").permitAll()
 				.antMatchers("/findUserById/**", "/editUser/**", "/deleteUser/**", "/getAllUnits", "/addUnit/**",
-						"/findUnitById/**", "/editUnit/**", "/deleteUnit/**")
+						"/findUnitById/**", "/editUnit/**", "/deleteUnit/**", "/getAllRoles")
 				.hasRole("ADMIN").antMatchers("/getAllUsers").hasAnyRole("USER", "ADMIN").anyRequest().authenticated();
 		http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.cors();
-
 	}
 
 }

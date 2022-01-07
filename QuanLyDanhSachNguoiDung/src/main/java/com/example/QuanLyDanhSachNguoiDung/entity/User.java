@@ -1,27 +1,33 @@
 package com.example.QuanLyDanhSachNguoiDung.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @Entity
 @Table(name = "users")
 @Data
@@ -52,12 +58,6 @@ public class User {
 	@Column
 	private java.sql.Date dateOfBirth;
 
-	@JsonBackReference(value = "user-role")
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Role role;
-
 	@JsonBackReference(value = "user-unit")
 	@ManyToOne
 	@JoinColumn(name = "unit_id")
@@ -67,13 +67,13 @@ public class User {
 	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
 	private List<EditUserHistory> editUserHistories;
 
-//	@JsonManagedReference
-//	@OneToMany(mappedBy = "createPerson", cascade = { CascadeType.ALL })
-//	private List<Unit> units;
+//	@JsonManagedReference(value = "user-user-role")
+//	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
+//	private List<User_Role> userRoles;
 
-//	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
-//			@JoinColumn(name = "role_id") })
-//	private Set<Role> roles;
+	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id") })
+	List<Role> roles = new ArrayList<Role>();
 
 }

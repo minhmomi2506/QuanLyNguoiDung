@@ -20,6 +20,11 @@ import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.MyUserDetail;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
@@ -84,8 +89,7 @@ public class UserController {
 
 	/* EDIT USER */
 	@PutMapping("/editUser/{id}")
-	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory,
-			Authentication authentication) {
+	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory, Authentication authentication) {
 		User user = getLoggedInUser(authentication);
 		return userService.editUserInformation(id, editUserHistory, user);
 	}

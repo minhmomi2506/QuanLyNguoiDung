@@ -8,6 +8,11 @@ import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 @Service
 public interface UnitService {
 	List<Unit> getAll();

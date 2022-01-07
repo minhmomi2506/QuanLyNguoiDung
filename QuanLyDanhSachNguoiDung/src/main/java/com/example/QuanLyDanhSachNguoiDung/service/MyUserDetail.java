@@ -11,6 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 
+/**
+ * @date 2022-01-06 - CREATE NEW
+ *
+ * @author MinhHL 
+ */
 public class MyUserDetail implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
@@ -23,14 +28,12 @@ public class MyUserDetail implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Role role = user.getRole();
+		Collection<Role> userRoles = user.getRoles();
 		List<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(role.getRoleName()));
+		for (Role userRole : userRoles) {
+			authorities.add(new SimpleGrantedAuthority(userRole.getRoleName()));
+		}
 		return authorities;
-	}
-
-	public Long getID() {
-		return user.getId();
 	}
 
 	@Override
