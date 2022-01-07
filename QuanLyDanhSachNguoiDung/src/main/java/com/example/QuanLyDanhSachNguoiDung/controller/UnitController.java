@@ -23,7 +23,7 @@ import com.example.QuanLyDanhSachNguoiDung.service.UnitService;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -33,8 +33,11 @@ public class UnitController {
 
 	@Autowired
 	private UserRepo userRepo;
-	
-	/* GET LOGGED IN USER INFO */
+
+	/**
+	 * @param authentication
+	 * @return
+	 */
 	public User getLoggedInUser(Authentication authentication) {
 		MyUserDetail userDetails = (MyUserDetail) authentication.getPrincipal();
 		String username = userDetails.getUsername();
@@ -42,35 +45,61 @@ public class UnitController {
 		return user;
 	}
 
-	/* ADD UNIT */
+	/**
+	 * @param unit
+	 * @param fatherUnitId
+	 * @return
+	 */
 	@PostMapping("/addUnit/{fatherUnitId}")
 	public String addUnit(@RequestBody Unit unit, @PathVariable Long fatherUnitId) {
 		return unitService.addUnit(unit, fatherUnitId);
 	}
 
-	/* GET ALL UNITS */
+	/**
+	 * @return
+	 */
 	@GetMapping("/getAllUnits")
 	public List<Unit> getAllUnits() {
 		return unitService.getAll();
 	}
 
-	/* FIND UNIT BY ID */
+	/**
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/findUnitById/{id}")
 	public Unit findUnitById(@PathVariable Long id) {
 		return unitService.fintUnitById(id);
 	}
 
-	/* EDIT UNIT */
+	/**
+	 * @param id
+	 * @param editUnitHistory
+	 * @param authentication
+	 * @return
+	 */
 	@PutMapping("/editUnit/{id}")
-	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory, Authentication authentication
-			) {
+	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory,
+			Authentication authentication) {
 		User user = getLoggedInUser(authentication);
 		return unitService.editUnit(id, editUnitHistory, user);
 	}
 
-	/* DELETE UNIT */
+	/**
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/deleteUnit/{id}")
 	public List<Unit> deleteUnit(@PathVariable Long id) {
 		return unitService.deleteUnit(id);
+	}
+
+	/**
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/getAllExcept2/{id}")
+	public List<Unit> getAllExcept2(@PathVariable Long id) {
+		return unitService.getAllExcept2(id);
 	}
 }

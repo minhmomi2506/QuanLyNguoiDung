@@ -15,18 +15,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.Data;
 
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Entity
 @Table(name = "users")
@@ -58,18 +54,9 @@ public class User {
 	@Column
 	private java.sql.Date dateOfBirth;
 
-	@JsonBackReference(value = "user-unit")
 	@ManyToOne
 	@JoinColumn(name = "unit_id")
 	private Unit unit;
-
-	@JsonManagedReference(value = "user-edit")
-	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
-	private List<EditUserHistory> editUserHistories;
-
-//	@JsonManagedReference(value = "user-user-role")
-//	@OneToMany(mappedBy = "user", cascade = { CascadeType.ALL })
-//	private List<User_Role> userRoles;
 
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {

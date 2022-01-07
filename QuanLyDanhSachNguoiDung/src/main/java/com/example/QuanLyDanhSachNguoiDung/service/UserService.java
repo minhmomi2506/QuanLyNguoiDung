@@ -74,14 +74,6 @@ public class UserService implements UserDetailsService {
 		Role role = roleRepo.findRoleByRoleName("ROLE_USER");
 		user.getRoles().add(role);
 		userRepo.save(user);
-//		EditUserHistory editUserHistory = new EditUserHistory();
-//		editUserHistory.setUser(user);
-//		editUserHistory.setUserFullNameEdit(user.getFullName());
-//		editUserHistory.setUserAddressEdit(user.getAddress());
-//		editUserHistory.setUserDateOfBirthEdit(user.getDateOfBirth());
-//		editUserHistory.setUserDescriptionEdit(user.getDescription());
-//		editUserHistory.setUpdateDate(date);
-//		editUserHistoryRepo.save(editUserHistory);
 		return "your acc has been successfully registered!";
 	}
 
@@ -106,7 +98,6 @@ public class UserService implements UserDetailsService {
 
 	/* FIND USER BY ID */
 	public User findUserById(Long id) {
-		System.out.println(userRepo.findUserById(id).getUnit().getUnitName());
 		return userRepo.findUserById(id);
 	}
 
@@ -123,7 +114,7 @@ public class UserService implements UserDetailsService {
 		user1.setAddress(editUserHistory.getUserAddressEdit());
 		user1.setDescription(editUserHistory.getUserDescriptionEdit());
 		user1.setDateOfBirth(editUserHistory.getUserDateOfBirthEdit());
-		user1.setUnit(user.getUnit());
+		user1.setUnit(editUserHistory.getUnit());
 		userRepo.save(user1);
 		return "Edit user successfully!";
 	}

@@ -23,7 +23,7 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -37,7 +37,10 @@ public class UserController {
 	@Autowired
 	private UserRepo userRepo;
 
-	/* GET LOGGED IN USER INFO */
+	/**
+	 * @param authentication
+	 * @return
+	 */
 	public User getLoggedInUser(Authentication authentication) {
 		MyUserDetail userDetails = (MyUserDetail) authentication.getPrincipal();
 		String username = userDetails.getUsername();
@@ -55,7 +58,10 @@ public class UserController {
 		return "aaa";
 	}
 
-	/* REGISTER */
+	/**
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/register")
 	public String register(@RequestBody User user) {
 		try {
@@ -69,38 +75,58 @@ public class UserController {
 		}
 	}
 
-	/* GET ALL USERS */
+	/**
+	 * @return
+	 */
 	@GetMapping("/getAllUsers")
 	public List<User> getAllUsers() {
 		return userService.getAll();
 	}
 
-	/* FIND USER BY ID */
+	/**
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/findUserById/{id}")
 	public User findUserById(@PathVariable Long id) {
 		return userService.findUserById(id);
 	}
 
-	/* GET ALL USERS BY NAME */
+	/**
+	 * @param str
+	 * @return
+	 */
 	@GetMapping("/getAllUsersByStr/{str}")
 	public List<User> getAllUsersByFullName(@PathVariable String str) {
 		return userService.getAllUsersByString(str);
 	}
 
-	/* EDIT USER */
+	/**
+	 * @param id
+	 * @param editUserHistory
+	 * @param authentication
+	 * @return
+	 */
 	@PutMapping("/editUser/{id}")
-	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory, Authentication authentication) {
+	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory,
+			Authentication authentication) {
 		User user = getLoggedInUser(authentication);
 		return userService.editUserInformation(id, editUserHistory, user);
 	}
 
-	/* DELETE USER */
+	/**
+	 * @param id
+	 * @return
+	 */
 	@DeleteMapping("/deleteUser/{id}")
 	public List<User> deleteUser(@PathVariable Long id) {
 		return userService.deleteUser(id);
 	}
 
-	/* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
+	/**
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/getAllExcept1/{id}")
 	public List<Unit> getAllExcept1(@PathVariable Long id) {
 		return userService.getAllExcept1(id);

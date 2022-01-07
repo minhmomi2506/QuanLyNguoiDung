@@ -24,8 +24,4 @@ public class Role {
 
 	@Column
 	private String roleName;
-
-//	@JsonManagedReference(value = "role-user-role")
-//	@OneToMany(mappedBy = "role", cascade = { CascadeType.ALL })
-//	private List<User_Role> userRoles;
 }
