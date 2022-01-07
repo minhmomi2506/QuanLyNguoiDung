@@ -13,7 +13,7 @@ import com.example.QuanLyDanhSachNguoiDung.service.RoleService;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -21,9 +21,12 @@ public class RoleController {
 	@Autowired
 	private RoleService roleService;
 
-	/* GET ALL ROLES */
+	/**
+	 * @return
+	 */
 	@GetMapping("/getAllRoles")
 	public List<Role> getAllUsers() {
+
 		return roleService.getAll();
 	}
 }

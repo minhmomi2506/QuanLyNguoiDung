@@ -11,7 +11,7 @@ import com.example.QuanLyDanhSachNguoiDung.entity.User;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Service
 public interface UnitService {
@@ -24,4 +24,6 @@ public interface UnitService {
 	Unit fintUnitById(Long id);
 
 	String editUnit(Long id, EditUnitHistory editUnitHistory, User user);
+
+	List<Unit> getAllExcept2(Long id);
 }

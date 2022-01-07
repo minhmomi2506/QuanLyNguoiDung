@@ -1,6 +1,5 @@
 package com.example.QuanLyDanhSachNguoiDung.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,7 +16,7 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @RestController
 @CrossOrigin(origins = "*")
@@ -31,7 +30,10 @@ public class ValidateController {
 	@Autowired
 	private TokenAuthenticationService tokenAuthen;
 
-	/* LOGIN USING JWT */
+	/**
+	 * @param user
+	 * @return
+	 */
 	@PostMapping("/validate")
 	public String login(@RequestBody User user) {
 		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
