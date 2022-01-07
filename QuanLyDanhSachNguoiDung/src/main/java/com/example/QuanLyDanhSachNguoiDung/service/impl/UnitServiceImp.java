@@ -14,11 +14,10 @@ import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.UnitService;
 
-
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Component
 public class UnitServiceImp implements UnitService {
@@ -40,14 +39,6 @@ public class UnitServiceImp implements UnitService {
 		Unit unit1 = unitRepo.findUnitById(fatherUnitId);
 		unit.setFatherUnit(unit1);
 		unitRepo.save(unit);
-//		System.out.println(unit.getId());
-//		EditUnitHistory editUnitHistory = new EditUnitHistory();
-//		editUnitHistory.setUnitIdEdit(unit.getUnitId());
-//		editUnitHistory.setUnitNameEdit(unit.getUnitName());
-//		editUnitHistory.setUnitDescriptionEdit(unit.getDescription());
-//		editUnitHistory.setUpdateDate(date);
-//		editUnitHistory.setUnit(unit);
-//		editUnitHistoryRepo.save(editUnitHistory);
 		return "add unit successfully!";
 	}
 
@@ -102,12 +93,25 @@ public class UnitServiceImp implements UnitService {
 		editUnitHistory.setUnit(unit1);
 		editUnitHistory.setUpdateDate(date);
 		editUnitHistory.setUpdateUserName(user.getFullName());
+//		editUnitHistory.setFatherUnit(unit.getFatherUnit());
 		editUnitHistoryRepo.save(editUnitHistory);
 		unit1.setUnitId(editUnitHistory.getUnitIdEdit());
 		unit1.setUnitName(editUnitHistory.getUnitNameEdit());
 		unit1.setDescription(editUnitHistory.getUnitDescriptionEdit());
+//		unit1.setFatherUnit(editUnitHistory.getFatherUnit());
+//		unit1.setFatherUnit(unit.getFatherUnit());
 		unitRepo.save(unit1);
 		return "Edit unit successfully!";
+	}
+
+	/* GET ALL UNITS EXCEPT THE ONE BEING EDITED AND ITS FATHER UNIT */
+	@Override
+	public List<Unit> getAllExcept2(Long id) {
+		Unit unit = unitRepo.findUnitById(id);
+		List<Unit> units = unitRepo.findAll();
+		units.remove(unit);
+		units.remove(unit.getFatherUnit());
+		return units;
 	}
 
 }

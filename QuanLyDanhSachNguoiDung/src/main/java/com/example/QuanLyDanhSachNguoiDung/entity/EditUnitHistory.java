@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import lombok.Data;
 
 /**
@@ -43,7 +41,7 @@ public class EditUnitHistory {
 	@Column
 	private Date updateDate;
 
-	@JsonBackReference(value = "unit-edit")
+//	@JsonBackReference(value = "unit-edit")
 	@ManyToOne
 	@JoinColumn(name = "unit_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
