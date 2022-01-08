@@ -81,6 +81,7 @@
                         <th>Unit name</th>
                         <th>Description</th>
                         <th>Create Date</th>
+                        <th>Father unit</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -92,6 +93,7 @@
                         <td>{{unit.unitName}}</td>
                         <td>{{unit.description}}</td>
                         <td>{{unit.createDate}}</td>
+                        <td>{{unit.fatherUnit?.unitName}}</td>
                         <td style="width: 200px;"><a class="fa fa-pencil" [routerLink]="['/editUnit', unit.id]"></a>
                         </td>
                         <td><a class="fas fa-trash" (click)="deleteUnit(unit.id)" style="color: red;"></a></td>

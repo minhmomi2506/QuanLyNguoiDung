@@ -3,8 +3,8 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
-<button class="btn btn-primary" (click)="register()" *ngIf="role === 'ROLE_ADMIN'">Register</button>
-<button class="btn btn-primary" (click)="unit()" *ngIf="role === 'ROLE_ADMIN'">Unit</button>
+<button class="btn btn-primary" (click)="register()" *ngIf="getRoles()">Register</button>
+<button class="btn btn-primary" (click)="unit()" *ngIf="getRoles()">Unit</button>
 
 <div class="container">
     <div class="row">
@@ -34,8 +34,10 @@
                         <th>Description</th>
                         <th>Address</th>
                         <th>Create Date</th>
-                        <th id="editUser" *ngIf="role === 'ROLE_ADMIN'">Edit</th>
-                        <th *ngIf="role === 'ROLE_ADMIN'">Delete</th>
+                        <th>Unit</th>
+                        <th>Role</th>
+                        <th id="editUser" *ngIf="getRoles()">Edit</th>
+                        <th *ngIf="getRoles()">Delete</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,9 +48,15 @@
                         <td>{{user.description}}</td>
                         <td>{{user.address}}</td>
                         <td>{{user.createDate}}</td>
-                        <td style="width: 200px;" *ngIf="role === 'ROLE_ADMIN'"><a class="fa fa-pencil"  style="color: green;" [routerLink]="['/editUserInfo', user.id]"></a>
+                        <td>{{user.unit?.unitName}}</td>
+                        <td>
+                            <div *ngFor="let role of user.roles">{{role.roleName}}</div>
                         </td>
-                        <td *ngIf="role === 'ROLE_ADMIN'"><a class="fas fa-trash" (click)="deleteUser(user.id)" style="color: red;"></a></td>
+                        <td style="width: 200px;" *ngIf="getRoles()"><a class="fa fa-pencil"
+                                style="color: green;" [routerLink]="['/editUserInfo', user.id]"></a>
+                        </td>
+                        <td *ngIf="getRoles()"><a class="fas fa-trash" (click)="deleteUser(user.id)"
+                                style="color: red;"></a></td>
                     </tr>
                 </tbody>
             </table>

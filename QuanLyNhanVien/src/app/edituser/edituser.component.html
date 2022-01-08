@@ -22,8 +22,8 @@
 
                     <div class="form-group">
                         <label for="dateOfBirth"><span class="req">* </span> Date of birth : </label>
-                        <input class="form-control" type="date" [(ngModel)]="editUserHistory.userDateOfBirthEdit" name="dateOfBirth"
-                            id="dateOfBirth" placeholder="Enter date of birth" required />
+                        <input class="form-control" type="date" [(ngModel)]="editUserHistory.userDateOfBirthEdit"
+                            name="dateOfBirth" id="dateOfBirth" placeholder="Enter date of birth" required />
                         <div id="errLast"></div>
                     </div>
 
@@ -41,13 +41,13 @@
                         <div class="status" id="status"></div>
                     </div>
 
-                    <!-- <div class="form-group">
-                        <label for="role"><span class="req">* </span> Unit: </label>
-                        <select id="userUnitId" >
-                            <option *ngFor="let unit of units" value="{{unit.id}}" text="{{unit.unitName}}"
-                            ></option>
+                    <div class="form-group">
+                        <label for="unit"><span class="req">* </span> Unit: </label>
+                        <select id="userUnitId" (change)="unitIdChange()">
+                            <option value="{{user?.unit.id}}" text="{{user?.unit.unitName}}" selected></option>
+                            <option *ngFor="let unit1 of units" value="{{unit1.id}}" text="{{unit1.unitName}}"></option>
                         </select>
-                    </div> -->
+                    </div>
 
                     <div class="form-group">
                         <input class="btn btn-success" type="submit" name="submit_reg" value="Edit"
