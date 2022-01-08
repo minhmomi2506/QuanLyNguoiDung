@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable().authorizeRequests().antMatchers("/validate", "/register", "/findUserById/**").permitAll()
 				.antMatchers("/findUserById/**", "/editUser/**", "/deleteUser/**", "/getAllUnits", "/addUnit/**",
-						"/findUnitById/**", "/editUnit/**", "/deleteUnit/**", "/getAllRoles")
+						"/findUnitById/**", "/deleteUnit/**", "/getAllRoles")
 				.hasRole("ADMIN").antMatchers("/getAllUsers").hasAnyRole("USER", "ADMIN").anyRequest().authenticated();
 		http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 		http.cors();

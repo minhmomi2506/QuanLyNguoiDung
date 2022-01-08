@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,12 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 /**
  * @date 2022-01-06 - CREATE NEW
@@ -25,7 +26,10 @@ import lombok.Data;
  */
 @Entity
 @Table
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Unit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,9 +47,10 @@ public class Unit {
 	@Column
 	private Date createDate;
 
-	@JsonIgnore
-	@ManyToOne
+//	@JsonBackReference
+//	@JsonIgnoreProperties
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JsonIgnoreProperties("fatherUnit")
 	@JoinColumn(name = "unit_father_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Unit fatherUnit;
 }

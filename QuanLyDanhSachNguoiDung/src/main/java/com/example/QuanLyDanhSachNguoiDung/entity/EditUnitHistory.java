@@ -49,6 +49,9 @@ public class EditUnitHistory {
 	
 	@Column
 	private String updateUserName;
+	
+	@Column
+	private String unitFather;
 
 //	@JsonBackReference(value="unitEdit-unit")
 //	@ManyToOne
