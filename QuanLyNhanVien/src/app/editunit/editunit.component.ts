@@ -13,7 +13,9 @@ import { Unit } from '../units';
 export class EditunitComponent implements OnInit {
 
   unit: any;
-  editUnitHistory: EditUnitHistory = new EditUnitHistory("","","");
+  units: any;
+  // fatherUnit: Unit = new Unit(0,"","","");
+  editUnitHistory: EditUnitHistory = new EditUnitHistory("", "", "", "");
   id: number = 0;
   msg: any;
   constructor(private service: UnitServiceService, private router: Router, private route: ActivatedRoute) { }
@@ -30,15 +32,24 @@ export class EditunitComponent implements OnInit {
       this.editUnitHistory.unitNameEdit = this.unit.unitName;
       this.editUnitHistory.unitDescriptionEdit = this.unit.description;
     });
-    
+    let resp1 = this.service.getAllExcept2(this.id);
+    resp1.subscribe((data) => {
+      this.units = data;
+    });
   }
 
-  public editUnit(){
+  public editUnit() {
     let resp = this.service.editUnit(this.editUnitHistory, this.id);
     resp.subscribe((data) =>{
       this.msg = data;
       this.ngOnInit();
     })
+    // console.log(this.fatherUnitName);
+    // console.log(JSON.stringify(this.editUnit));
+  }
+
+  public unitIdChange() {
+    this.editUnitHistory.unitFather = $("#userUnitId option:selected").text();
   }
 
 }

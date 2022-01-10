@@ -11,22 +11,36 @@ import { LoginjwtService } from '../services/loginjwt.service';
   templateUrl: './search-delete.component.html',
   styleUrls: ['./search-delete.component.css']
 })
-export class SearchDeleteComponent implements OnInit{
+export class SearchDeleteComponent implements OnInit {
 
   users: any;
   str: any;
   token: any;
   role: any;
+  roles: any = [];
   constructor(private service: SearchDeleteService, private router: Router) { }
 
   ngOnInit(): void {
     let resp = this.service.getAllUsers();
-    resp.subscribe((data) => console.log(data));
+    resp.subscribe((data) => {
+      this.users = data;
+    });
     this.token = localStorage.getItem('token');
     const helper = new JwtHelperService();
     const decodedToken = helper.decodeToken(this.token);
-    this.role = decodedToken.role;
-    localStorage.setItem('role',this.role);
+    localStorage.setItem('roles', JSON.stringify(decodedToken.roles));
+    this.roles = JSON.parse(localStorage.getItem('roles') || '{}');
+  }
+
+  
+
+  public getRoles(){
+    for (var i = 0, len = this.roles.length; i < len; i++) {
+      if(this.roles[i].roleName === 'ROLE_ADMIN'){
+        return true;
+      }
+    }
+    return false;
   }
 
   public findUserByStr() {
@@ -55,7 +69,7 @@ export class SearchDeleteComponent implements OnInit{
     this.router.navigate(['register']);
   }
 
-  public unit(){
+  public unit() {
     this.router.navigate(['unit']);
   }
 
