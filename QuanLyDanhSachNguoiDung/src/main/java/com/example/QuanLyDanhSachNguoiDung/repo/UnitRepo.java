@@ -19,4 +19,6 @@ public interface UnitRepo extends JpaRepository<Unit, Long> {
 	
 	List<Unit> findByFatherUnit(Unit unit);
 
+	Unit findUnitByUnitName(String unitFatherName);
+
 }
