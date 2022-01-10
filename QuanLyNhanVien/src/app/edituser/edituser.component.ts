@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { data } from 'jquery';
 import { EditUserHistory } from '../edituserhistory';
 import { SearchDeleteService } from '../services/search-delete.service';
+import { Unit } from '../units';
 import { User } from '../user';
 
 @Component({
@@ -13,7 +14,8 @@ import { User } from '../user';
 })
 export class EdituserComponent implements OnInit {
   public date = new Date();
-  editUserHistory: EditUserHistory = new EditUserHistory("", "", "",this.date);
+  unit: Unit = new Unit(0, "", "", "")
+  editUserHistory: EditUserHistory = new EditUserHistory("", "", "", this.date, this.unit);
   id: number = 0;
   user: any;
   units: any;
@@ -29,13 +31,20 @@ export class EdituserComponent implements OnInit {
       $("#description").val(this.user.description);
       $("#dateOfBirth").val(this.user.dateOfBirth);
       $("#address").val(this.user.address);
-      // $("#userUnitId").val(this.user.unit.id);
-      // $("#userUnitId").text(this.user.unit.unitName);
       this.editUserHistory.userFullNameEdit = this.user.fullName;
       this.editUserHistory.userDescriptionEdit = this.user.description;
       this.editUserHistory.userAddressEdit = this.user.address;
       this.editUserHistory.userDateOfBirthEdit = this.user.dateOfBirth;
+      console.log(this.unit.id);
     });
+    let resp1 = this.service.getAllExcept1(this.id);
+    resp1.subscribe((data) => {
+      this.units = data;
+    });
+  }
+
+  public unitIdChange() {
+    this.unit.id = Number($("#userUnitId").val());
   }
 
 
@@ -45,6 +54,7 @@ export class EdituserComponent implements OnInit {
       this.msg = data;
       this.ngOnInit();
     });
+    console.log(this.unit.id);
   }
 
 

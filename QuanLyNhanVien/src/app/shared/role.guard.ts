@@ -11,10 +11,12 @@ export class RoleGuard implements CanActivate {
   constructor(private auth: AuthService){}
 
   canActivate() {
-    if(this.auth.hasRole()){
-      return true;
+    var roles = JSON.parse(localStorage.getItem('roles') || '{}');
+    for (var i = 0, len = roles.length; i < len; i++) {
+      if(roles[i].roleName === 'ROLE_ADMIN'){
+        return true;
+      }
     }
-    alert('You dont have the admin rights!');
     return false;
   }
   

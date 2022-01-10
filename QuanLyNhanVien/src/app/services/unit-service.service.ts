@@ -53,6 +53,11 @@ export class UnitServiceService {
     .pipe(catchError(this.handleError));
   }
 
+  public getAllExcept2(id: number){
+    return this.http.get("http://localhost:8080/getAllExcept2/"+id, this.httpOptionGet)
+    .pipe(catchError(this.handleError));
+  }
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
