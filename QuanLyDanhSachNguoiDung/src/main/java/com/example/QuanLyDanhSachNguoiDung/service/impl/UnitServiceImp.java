@@ -93,11 +93,18 @@ public class UnitServiceImp implements UnitService {
 		editUnitHistory.setUnit(unit1);
 		editUnitHistory.setUpdateDate(date);
 		editUnitHistory.setUpdateUserName(user.getFullName());
-//		editUnitHistory.setFatherUnit(unit.getFatherUnit());
 		editUnitHistoryRepo.save(editUnitHistory);
 		unit1.setUnitId(editUnitHistory.getUnitIdEdit());
 		unit1.setUnitName(editUnitHistory.getUnitNameEdit());
 		unit1.setDescription(editUnitHistory.getUnitDescriptionEdit());
+		Unit fatherUnit = unitRepo.findUnitByUnitName(editUnitHistory.getUnitFather());
+		System.out.println(fatherUnit);
+		if(fatherUnit != null) {
+			unit1.setFatherUnit(fatherUnit);
+		}
+		else {
+			unit1.setFatherUnit(null);
+		}
 //		unit1.setFatherUnit(editUnitHistory.getFatherUnit());
 //		unit1.setFatherUnit(unit.getFatherUnit());
 		unitRepo.save(unit1);
