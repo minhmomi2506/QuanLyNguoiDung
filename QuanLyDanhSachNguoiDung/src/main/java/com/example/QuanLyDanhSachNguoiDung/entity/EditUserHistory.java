@@ -49,11 +49,9 @@ public class EditUserHistory {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
-	@ManyToOne
-	@JoinColumn(name = "unit_father_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private Unit unit;
-	
 	@Column
 	private String updateUserName;
+	
+	@Column
+	private String updateUnitName;
 }

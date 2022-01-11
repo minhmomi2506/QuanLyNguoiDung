@@ -8,7 +8,7 @@ import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Repository
 public interface EditUnitHistoryRepo extends JpaRepository<EditUnitHistory, Long> {

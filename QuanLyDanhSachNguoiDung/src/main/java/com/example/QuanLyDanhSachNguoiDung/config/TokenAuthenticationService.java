@@ -37,7 +37,6 @@ public class TokenAuthenticationService {
 		User user = userRepo.findUserByUsername(userDetails.getUsername());
 		Collection<Role> userRoles = user.getRoles();
 		claims.put("roles", userRoles);
-//		System.out.println(claims);
 		return addAuthentication(claims, userDetails.getUsername());
 	}
 

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
@@ -28,8 +27,6 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 @RestController
 @CrossOrigin(origins = "*")
 public class UserController {
-//	@Autowired
-//	private TokenAuthenticationService tokenAuthen;
 
 	@Autowired
 	private UserService userService;
@@ -108,10 +105,10 @@ public class UserController {
 	 * @return
 	 */
 	@PutMapping("/editUser/{id}")
-	public String editUser(@PathVariable Long id, @RequestBody EditUserHistory editUserHistory,
+	public String editUser(@PathVariable Long id, @RequestBody User user,
 			Authentication authentication) {
-		User user = getLoggedInUser(authentication);
-		return userService.editUserInformation(id, editUserHistory, user);
+		User user1 = getLoggedInUser(authentication);
+		return userService.editUserInformation(id, user, user1);
 	}
 
 	/**

@@ -47,8 +47,6 @@ public class Unit {
 	@Column
 	private Date createDate;
 
-//	@JsonBackReference
-//	@JsonIgnoreProperties
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JsonIgnoreProperties("fatherUnit")
 	@JoinColumn(name = "unit_father_id")
