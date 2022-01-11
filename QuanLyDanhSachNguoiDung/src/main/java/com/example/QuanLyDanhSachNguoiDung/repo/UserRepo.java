@@ -11,7 +11,7 @@ import com.example.QuanLyDanhSachNguoiDung.entity.User;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {

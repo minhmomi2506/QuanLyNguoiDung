@@ -14,7 +14,7 @@ import com.example.QuanLyDanhSachNguoiDung.entity.User;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 public class MyUserDetail implements UserDetails {
 

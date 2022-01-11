@@ -18,15 +18,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * @date 2022-01-06 - CREATE NEW
  *
  * @author MinhHL
  */
 @Component
-@Slf4j
+//@Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 	@Autowired
 	private UserService customUserService;
@@ -56,7 +54,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 			}
 			filterChain.doFilter(request, response);
 		} catch (Exception e) {
-			log.error("error");
+			e.getMessage();
+			e.printStackTrace();
 		}
 	}
 

@@ -10,13 +10,13 @@ import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Repository
 public interface UnitRepo extends JpaRepository<Unit, Long> {
 
 	Unit findUnitById(Long unitId);
-	
+
 	List<Unit> findByFatherUnit(Unit unit);
 
 	Unit findUnitByUnitName(String unitFatherName);

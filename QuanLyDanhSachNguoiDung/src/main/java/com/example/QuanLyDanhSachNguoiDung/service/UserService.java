@@ -102,20 +102,26 @@ public class UserService implements UserDetailsService {
 	}
 
 	/* EDIT USER */
-	public String editUserInformation(Long roleId, EditUserHistory editUserHistory, User user) {
-		User user1 = userRepo.findUserById(roleId);
+	public String editUserInformation(Long roleId, User user, User user1) {
+		User user2 = userRepo.findUserById(roleId);
 		long millis = System.currentTimeMillis();
 		Date date = new Date(millis);
-		editUserHistory.setUser(user1);
+		user2.setFullName(user.getFullName());
+		user2.setAddress(user.getAddress());
+		user2.setDescription(user.getDescription());
+		user2.setDateOfBirth(user.getDateOfBirth());
+		user2.setUnit(user.getUnit());
+		userRepo.save(user2);
+		EditUserHistory editUserHistory = new EditUserHistory();
+		editUserHistory.setUser(user2);
 		editUserHistory.setUpdateDate(date);
-		editUserHistory.setUpdateUserName(user.getFullName());
+		editUserHistory.setUserFullNameEdit(user2.getFullName());
+		editUserHistory.setUserAddressEdit(user2.getAddress());
+		editUserHistory.setUserDescriptionEdit(user2.getDescription());
+		editUserHistory.setUserDateOfBirthEdit(user2.getDateOfBirth());
+		editUserHistory.setUpdateUnitName(user2.getUnit().getUnitName());
+		editUserHistory.setUpdateUserName(user1.getFullName());
 		editUserHistoryRepo.save(editUserHistory);
-		user1.setFullName(editUserHistory.getUserFullNameEdit());
-		user1.setAddress(editUserHistory.getUserAddressEdit());
-		user1.setDescription(editUserHistory.getUserDescriptionEdit());
-		user1.setDateOfBirth(editUserHistory.getUserDateOfBirthEdit());
-		user1.setUnit(editUserHistory.getUnit());
-		userRepo.save(user1);
 		return "Edit user successfully!";
 	}
 

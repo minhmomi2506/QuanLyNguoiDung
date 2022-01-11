@@ -7,7 +7,7 @@ import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 public interface RoleRepo extends JpaRepository<Role, Long> {
 
