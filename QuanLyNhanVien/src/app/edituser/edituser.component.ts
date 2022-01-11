@@ -49,12 +49,12 @@ export class EdituserComponent implements OnInit {
 
 
   public editUser() {
-    let resp = this.service.editUser(this.editUserHistory, this.id);
-    resp.subscribe((data) => {
-      this.msg = data;
-      this.ngOnInit();
-    });
-    console.log(this.unit.id);
+    // let resp = this.service.editUser(this.editUserHistory, this.id);
+    // resp.subscribe((data) => {
+    //   this.msg = data;
+    //   this.ngOnInit();
+    // });
+    // console.log(this.unit.id);
   }
 
 

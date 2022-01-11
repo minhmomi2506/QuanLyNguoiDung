@@ -39,10 +39,10 @@ export class LoginjwtComponent implements OnInit {
   constructor(private service: LoginjwtService, private router: Router) { }
 
   ngOnInit(): void {
-    if(localStorage.getItem('token') == ''){
+    if (localStorage.getItem('token') == '') {
       this.getToken();
     }
-    else{
+    else {
       this.router.navigate(['user']);
     }
   }

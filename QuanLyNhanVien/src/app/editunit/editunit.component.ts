@@ -32,21 +32,21 @@ export class EditunitComponent implements OnInit {
       this.editUnitHistory.unitNameEdit = this.unit.unitName;
       this.editUnitHistory.unitDescriptionEdit = this.unit.description;
     });
-    let resp1 = this.service.getAllExcept2(this.id);
+    let resp1 = this.service.getAllExcept1(this.id);
     resp1.subscribe((data) => {
       this.units = data;
     });
   }
 
-  public editUnit() {
-    let resp = this.service.editUnit(this.editUnitHistory, this.id);
-    resp.subscribe((data) =>{
-      this.msg = data;
-      this.ngOnInit();
-    })
-    // console.log(this.fatherUnitName);
-    // console.log(JSON.stringify(this.editUnit));
-  }
+  // public editUnit() {
+  //   let resp = this.service.editUnit(this.editUnitHistory, this.id);
+  //   resp.subscribe((data) =>{
+  //     this.msg = data;
+  //     this.ngOnInit();
+  //   })
+  //   // console.log(this.fatherUnitName);
+  //   // console.log(JSON.stringify(this.editUnit));
+  // }
 
   public unitIdChange() {
     this.editUnitHistory.unitFather = $("#userUnitId option:selected").text();
