@@ -1,9 +1,9 @@
-export class Unit{
+export class Unit {
     constructor(
         public id: number,
-        public unitId:string,
+        public unitId: string,
         public unitName: string,
-        public description:string
-    ){}
+        public description: string,
+    ) { }
 
 }

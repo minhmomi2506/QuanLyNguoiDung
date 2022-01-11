@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { catchError, throwError } from 'rxjs';
 import { User } from '../user';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,7 +12,7 @@ export class LoginjwtService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-      
+
       // Authorization: 'my-auth-token',
       // Authorization: 'Basic ' + btoa('username:password'),
     }),
@@ -41,5 +42,14 @@ export class LoginjwtService {
     }
     // return an observable with a user-facing error message
     return throwError('Something bad happened; please try again later.');
+  }
+
+  public loggedIn() {
+    if (localStorage.getItem('token') != '') {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 }

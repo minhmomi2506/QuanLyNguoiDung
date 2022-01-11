@@ -52,8 +52,67 @@
                         <td>
                             <div *ngFor="let role of user.roles">{{role.roleName}}</div>
                         </td>
-                        <td style="width: 200px;" *ngIf="getRoles()"><a class="fa fa-pencil"
-                                style="color: green;" [routerLink]="['/editUserInfo', user.id]"></a>
+                        <td style="width: 200px;" *ngIf="getRoles()"><button class="fa fa-pencil" style="color: green;"
+                                data-bs-toggle="modal" attr.data-bs-target="#editUserModal{{user.id}}"
+                                (click)="findUserById(user.id)"></button>
+                            <div class="modal fade editModal" tabindex="-1" id="editUserModal{{user.id}}"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="width: 800px;">
+                                        <div class="modal-header">
+                                            EDIT USER
+                                        </div>
+                                        <div class="modal-body" style="width: 800px;">
+                                            <div class="form-group">
+                                                <label for="fullName"><span class="req">* </span> Full name : </label>
+                                                <input class="form-control" type="text" name="id" id="fullNameEdit{{user.id}}"
+                                                    placeholder="Enter full name" required
+                                                    [(ngModel)]="user1.fullName" />
+                                                <div id="errLast"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="dateOfBirth"><span class="req">* </span> Date of birth :
+                                                </label>
+                                                <input class="form-control" type="date" name="dateOfBirthEdit"
+                                                    id="dateOfBirth{{user.id}}" placeholder="Enter date of birth" required
+                                                    [(ngModel)]="user1.dateOfBirth" />
+                                                <div id="errLast"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="description"><span class="req">* </span> Description:
+                                                </label>
+                                                <input class="form-control" required type="text" name="description"
+                                                    id="descriptionEdit{{user.id}}" placeholder="Enter description"
+                                                    [(ngModel)]="user1.description" />
+                                                <div class="status" id="status"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="address"><span class="req">* </span> Address: </label>
+                                                <input class="form-control" required type="text" name="address"
+                                                    id="addressEdit{{user.id}}" placeholder="Enter address"
+                                                    [(ngModel)]="user1.address" />
+                                                <div class="status" id="status"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="unit"><span class="req">* </span> Unit: </label>
+                                                <select id="userUnit{{user.id}}" (change)="unitChange()">
+                                                    <option value="{{user?.unit.id}}" text="{{user?.unit.unitName}}"
+                                                        selected></option>
+                                                    <option *ngFor="let unit1 of units" value="{{unit1.id}}"
+                                                        text="{{unit1.unitName}}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-success" type="submit" name="submit_reg"
+                                                    value="Edit" (click)="editUser()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td *ngIf="getRoles()"><a class="fas fa-trash" (click)="deleteUser(user.id)"
                                 style="color: red;"></a></td>

@@ -94,7 +94,55 @@
                         <td>{{unit.description}}</td>
                         <td>{{unit.createDate}}</td>
                         <td>{{unit.fatherUnit?.unitName}}</td>
-                        <td style="width: 200px;"><a class="fa fa-pencil" [routerLink]="['/editUnit', unit.id]"></a>
+                        <td style="width: 200px;"><button class="fa fa-pencil" style="color: green;"
+                                data-bs-toggle="modal" attr.data-bs-target="#editUnitModal{{unit.id}}"
+                                (click)="findUnitById(unit.id)"></button>
+                            <div class="modal fade editModal" tabindex="-1" id="editUnitModal{{unit.id}}"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="width: 800px;">
+                                        <div class="modal-header">
+                                            EDIT UNIT
+                                        </div>
+                                        <div class="modal-body" style="width: 800px;">
+                                            <div class="form-group">
+                                                <label for="fullName"><span class="req">* </span> Unit Id : </label>
+                                                <input class="form-control" type="text" name="id"
+                                                    id="unitIdEdit{{unit.id}}" placeholder="Enter unit Id" required [(ngModel)]="unit1.unitId" />
+                                                <div id="errLast"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fullName"><span class="req">* </span> Unit name : </label>
+                                                <input class="form-control" type="text" name="id"
+                                                    id="unitNameEdit{{unit.id}}" placeholder="Enter unit name" [(ngModel)]="unit1.unitName"
+                                                    required />
+                                                <div id="errLast"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="description"><span class="req">* </span> Description:
+                                                </label>
+                                                <input class="form-control" required type="text" name="description"
+                                                    id="unitDescriptionEdit{{unit.id}}" [(ngModel)]="unit1.description"
+                                                    placeholder="Enter description" />
+                                                <div class="status" id="status"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="unit"><span class="req">* </span> Unit: </label>
+                                                <select id="unitFatherUnit{{unit.id}}" (change)="fatherUnitChange()">
+                                                    <option value="{{unit.fatherUnit?.id}}"
+                                                        text="{{unit.fatherUnit?.unitName}}" selected></option>
+                                                    <option *ngFor="let unit2 of units2" value="{{unit2.id}}"
+                                                        text="{{unit2.unitName}}"></option> -->
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-success" type="submit" name="submit_reg"
+                                                    value="Edit" (click)="editUnit()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                         <td><a class="fas fa-trash" (click)="deleteUnit(unit.id)" style="color: red;"></a></td>
                     </tr>

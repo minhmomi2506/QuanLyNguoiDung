@@ -26,36 +26,36 @@ export class UnitServiceService {
     }),
   };
 
-  constructor(private http:HttpClient) { }
+  constructor(private httpCLient: HttpClient) { }
 
-  public getAllUnits(){
-    return this.http.get<any>("http://localhost:8080/getAllUnits", this.httpOptionGet)
-    .pipe(catchError(this.handleError));
+  public getAllUnits() {
+    return this.httpCLient.get<any>("http://localhost:8080/getAllUnits", this.httpOptionGet)
+      .pipe(catchError(this.handleError));
   }
 
-  public addUnit(unit: Unit,fatherUnitId:number){
-    return this.http.post("http://localhost:8080/addUnit/"+fatherUnitId,unit, this.httpOptionPost)
-    .pipe(catchError(this.handleError));
+  public addUnit(unit: Unit, fatherUnitId: number) {
+    return this.httpCLient.post("http://localhost:8080/addUnit/" + fatherUnitId, unit, this.httpOptionPost)
+      .pipe(catchError(this.handleError));
   }
 
-  public deleteUnit(id:number){
-    return this.http.delete("http://localhost:8080/deleteUnit/"+id, this.httpOptionGet)
-    .pipe(catchError(this.handleError));
+  public deleteUnit(id: number) {
+    return this.httpCLient.delete("http://localhost:8080/deleteUnit/" + id, this.httpOptionGet)
+      .pipe(catchError(this.handleError));
   }
 
-  public findUnitById(id: number){
-    return this.http.get<any>("http://localhost:8080/findUnitById/" +id, this.httpOptionGet)
-    .pipe(catchError(this.handleError));
+  public findUnitById(id: number) {
+    return this.httpCLient.get<any>("http://localhost:8080/findUnitById/" + id, this.httpOptionGet)
+      .pipe(catchError(this.handleError));
   }
 
-  public editUnit(editUnitHistory:EditUnitHistory, id: any){
-    return this.http.put("http://localhost:8080/editUnit/"+id,editUnitHistory, this.httpOptionPost)
-    .pipe(catchError(this.handleError));
+  public editUnit(unitEdit: Unit, id: any, fatherUnitId: number) {
+    return this.httpCLient.put("http://localhost:8080/editUnit/" + id + "/" + fatherUnitId, unitEdit, this.httpOptionPost)
+      .pipe(catchError(this.handleError));
   }
 
-  public getAllExcept2(id: number){
-    return this.http.get("http://localhost:8080/getAllExcept2/"+id, this.httpOptionGet)
-    .pipe(catchError(this.handleError));
+  public getAllExcept1(id: number) {
+    return this.httpCLient.get("http://localhost:8080/getAllUnitsExcept1/" + id, this.httpOptionGet)
+      .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
