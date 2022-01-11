@@ -41,7 +41,6 @@ public class EditUnitHistory {
 	@Column
 	private Date updateDate;
 
-//	@JsonBackReference(value = "unit-edit")
 	@ManyToOne
 	@JoinColumn(name = "unit_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -53,9 +52,4 @@ public class EditUnitHistory {
 	@Column
 	private String unitFather;
 
-//	@JsonBackReference(value="unitEdit-unit")
-//	@ManyToOne
-//	@JoinColumn(name = "unit_father_id")
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	private Unit fatherUnit;
 }

@@ -86,37 +86,37 @@ public class UnitServiceImp implements UnitService {
 
 	/* EDIT UNIT */
 	@Override
-	public String editUnit(Long id, EditUnitHistory editUnitHistory, User user) {
+	public String editUnit(Long id, Unit unit, User user, Long fatherUnitId) {
 		Unit unit1 = unitRepo.findUnitById(id);
-		long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
-		editUnitHistory.setUnit(unit1);
-		editUnitHistory.setUpdateDate(date);
-		editUnitHistory.setUpdateUserName(user.getFullName());
-		editUnitHistoryRepo.save(editUnitHistory);
-		unit1.setUnitId(editUnitHistory.getUnitIdEdit());
-		unit1.setUnitName(editUnitHistory.getUnitNameEdit());
-		unit1.setDescription(editUnitHistory.getUnitDescriptionEdit());
-		Unit fatherUnit = unitRepo.findUnitByUnitName(editUnitHistory.getUnitFather());
-		System.out.println(fatherUnit);
-		if(fatherUnit != null) {
+		unit1.setUnitId(unit.getUnitId());
+		unit1.setUnitName(unit.getUnitName());
+		unit1.setDescription(unit.getDescription());
+		Unit fatherUnit = unitRepo.findUnitById(fatherUnitId);
+		if (fatherUnit != null && fatherUnit != unit1) {
 			unit1.setFatherUnit(fatherUnit);
-		}
-		else {
+		} else {
 			unit1.setFatherUnit(null);
 		}
-//		unit1.setFatherUnit(editUnitHistory.getFatherUnit());
-//		unit1.setFatherUnit(unit.getFatherUnit());
 		unitRepo.save(unit1);
+		long millis = System.currentTimeMillis();
+		Date date = new Date(millis);
+		EditUnitHistory editUnitHistory = new EditUnitHistory();
+		editUnitHistory.setUnitIdEdit(unit1.getUnitId());
+		editUnitHistory.setUnitDescriptionEdit(unit1.getDescription());
+		editUnitHistory.setUnitNameEdit(unit1.getUnitName());
+		editUnitHistory.setUnit(unit1);
+		editUnitHistory.setUpdateDate(date);
+		editUnitHistory.setUnitFather(fatherUnit.getUnitName());
+		editUnitHistory.setUpdateUserName(user.getFullName());
+		editUnitHistoryRepo.save(editUnitHistory);
 		return "Edit unit successfully!";
 	}
 
 	/* GET ALL UNITS EXCEPT THE ONE BEING EDITED AND ITS FATHER UNIT */
 	@Override
-	public List<Unit> getAllExcept2(Long id) {
+	public List<Unit> getAllExcept1(Long id) {
 		Unit unit = unitRepo.findUnitById(id);
 		List<Unit> units = unitRepo.findAll();
-		units.remove(unit);
 		units.remove(unit.getFatherUnit());
 		return units;
 	}

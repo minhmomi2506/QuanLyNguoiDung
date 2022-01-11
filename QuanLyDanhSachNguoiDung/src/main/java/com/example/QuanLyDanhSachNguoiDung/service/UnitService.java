@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 
@@ -23,7 +22,7 @@ public interface UnitService {
 
 	Unit fintUnitById(Long id);
 
-	String editUnit(Long id, EditUnitHistory editUnitHistory, User user);
+	String editUnit(Long id, Unit unit, User user, Long fatherUnitId);
 
-	List<Unit> getAllExcept2(Long id);
+	List<Unit> getAllExcept1(Long id);
 }

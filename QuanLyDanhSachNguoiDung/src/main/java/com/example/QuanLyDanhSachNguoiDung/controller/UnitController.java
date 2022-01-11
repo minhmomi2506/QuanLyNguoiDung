@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.QuanLyDanhSachNguoiDung.entity.EditUnitHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
@@ -78,11 +77,11 @@ public class UnitController {
 	 * @param authentication
 	 * @return
 	 */
-	@PutMapping("/editUnit/{id}")
-	public String editUnit(@PathVariable Long id, @RequestBody EditUnitHistory editUnitHistory,
-			Authentication authentication) {
+	@PutMapping("/editUnit/{id}/{fatherUnitId}")
+	public String editUnit(@PathVariable Long id, @RequestBody Unit unit,
+			Authentication authentication, @PathVariable Long fatherUnitId) {
 		User user = getLoggedInUser(authentication);
-		return unitService.editUnit(id, editUnitHistory, user);
+		return unitService.editUnit(id, unit, user, fatherUnitId);
 	}
 
 	/**
@@ -98,8 +97,8 @@ public class UnitController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/getAllExcept2/{id}")
+	@GetMapping("/getAllUnitsExcept1/{id}")
 	public List<Unit> getAllExcept2(@PathVariable Long id) {
-		return unitService.getAllExcept2(id);
+		return unitService.getAllExcept1(id);
 	}
 }
