@@ -8,9 +8,9 @@ describe('LoginjwtComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ LoginjwtComponent ]
+      declarations: [LoginjwtComponent]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
