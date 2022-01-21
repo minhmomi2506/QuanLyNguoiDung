@@ -12,16 +12,16 @@ import lombok.Data;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Entity
 @Table
 @Data
 public class Role {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column
-	private String roleName;
+    @Column
+    private String roleName;
 }

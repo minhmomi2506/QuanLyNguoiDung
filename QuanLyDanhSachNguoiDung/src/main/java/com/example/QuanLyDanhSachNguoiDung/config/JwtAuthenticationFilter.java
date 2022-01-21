@@ -24,47 +24,47 @@ import com.example.QuanLyDanhSachNguoiDung.service.UserService;
  * @author MinhHL
  */
 @Component
-//@Slf4j
+// @Slf4j
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-	@Autowired
-	private UserService customUserService;
+    @Autowired
+    private UserService customUserService;
 
-	@Autowired
-	private TokenAuthenticationService tokenAuthen;
+    @Autowired
+    private TokenAuthenticationService tokenAuthen;
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		try {
-			String jwt = getJwtFromRequest(request);
-			if (StringUtils.hasText(jwt)) {
-				// Lấy id user từ chuỗi jwt
-				String username = tokenAuthen.getUsernameFromToken(jwt);
-				// Lấy thông tin người dùng từ id
-				UserDetails userDetails = customUserService.loadUserByUsername(username);
-				if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-					// Nếu người dùng hợp lệ, set thông tin cho Security Context
-					UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-							userDetails, null, userDetails.getAuthorities());
-//					Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
-//	                System.out.println("Authorities granted : " + authorities);
-					authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-					SecurityContextHolder.getContext().setAuthentication(authentication);
-				}
-			}
-			filterChain.doFilter(request, response);
-		} catch (Exception e) {
-			e.getMessage();
-			e.printStackTrace();
-		}
-	}
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+                    throws ServletException, IOException {
+        try {
+            String jwt = getJwtFromRequest(request);
+            if (StringUtils.hasText(jwt)) {
+                // Lấy id user từ chuỗi jwt
+                String username = tokenAuthen.getUsernameFromToken(jwt);
+                // Lấy thông tin người dùng từ id
+                UserDetails userDetails = customUserService.loadUserByUsername(username);
+                if (userDetails != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    // Nếu người dùng hợp lệ, set thông tin cho Security Context
+                    UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                    // Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
+                    // System.out.println("Authorities granted : " + authorities);
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
+            }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+    }
 
-	public String getJwtFromRequest(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		// Kiểm tra xem header Authorization có chứa thông tin jwt không
-		if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
-			return bearerToken.substring(7);
-		} else
-			return null;
-	}
+    public String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        // Kiểm tra xem header Authorization có chứa thông tin jwt không
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        } else
+            return null;
+    }
 }

@@ -1,16 +1,19 @@
 package com.example.QuanLyDanhSachNguoiDung.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
@@ -19,6 +22,13 @@ import com.example.QuanLyDanhSachNguoiDung.repo.EditUserHistoryRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
+import graphql.GraphQL;
+import graphql.schema.DataFetcher;
+import graphql.schema.GraphQLSchema;
+import graphql.schema.idl.RuntimeWiring;
+import graphql.schema.idl.SchemaGenerator;
+import graphql.schema.idl.SchemaParser;
+import graphql.schema.idl.TypeDefinitionRegistry;
 
 /**
  * @date 2022-01-06 - CREATE NEW
@@ -27,115 +37,126 @@ import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
  */
 @Service
 public class UserService implements UserDetailsService {
-	@Autowired
-	private UserRepo userRepo;
+    @Autowired
+    private UserRepo userRepo;
 
-	@Autowired
-	private RoleRepo roleRepo;
+    @Autowired
+    private RoleRepo roleRepo;
 
-	@Autowired
-	private UnitRepo unitRepo;
+    @Autowired
+    private UnitRepo unitRepo;
 
-	@Autowired
-	private EditUserHistoryRepo editUserHistoryRepo;
+    @Autowired
+    private EditUserHistoryRepo editUserHistoryRepo;
 
-//	@Autowired
-//	private JwtAuthenticationFilter jwtAuthenFilter;
-//	
-//	@Autowired
-//	private TokenAuthenticationService tokenAuthen;
+    @Value("classpath:user.graphqls")
+    private Resource schemaResource;
 
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepo.findUserByUsername(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("Khong tim thay");
-		} else {
-			return new MyUserDetail(user);
-		}
-	}
+    @PostConstruct
+    public GraphQL loadSchema() throws IOException {
+        File schemaFile = schemaResource.getFile();
+        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(schemaFile);
+        RuntimeWiring runtimeWiring = buildWiring();
+        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
+        GraphQL graphQL = GraphQL.newGraphQL(graphQLSchema).build();
+        return graphQL;
+    }
 
-//	public User getUserFromJwt(HttpServletRequest request) {
-//		String jwt = jwtAuthenFilter.getJwtFromRequest(request);
-//		String username = tokenAuthen.getUsernameFromToken(jwt);
-//		// Lấy thông tin người dùng từ id
-//		User user = userRepo.findUserByUsername(username);
-//		return user;
-//	}
+    private RuntimeWiring buildWiring() {
+        DataFetcher<List<User>> dataFetcher = data -> {
+            return userRepo.findAll();
+        };
+        return RuntimeWiring.newRuntimeWiring().type("Query",
+                        typeWriting -> typeWriting.dataFetcher("getAllUsers", dataFetcher))
+                        .build();
+    }
+    // @Autowired
+    // private RedisTemplate<String, User> redisTemplate;
 
-	/* REGISTER */
-	public String register(User user) {
-		long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
-		user.setCreateDate(date);
-		BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
-		String encodedPassword = encode.encode(user.getPassword());
-		user.setPassword(encodedPassword);
-		Role role = roleRepo.findRoleByRoleName("ROLE_USER");
-		user.getRoles().add(role);
-		userRepo.save(user);
-		return "your acc has been successfully registered!";
-	}
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Khong tim thay");
+        } else {
+            return new MyUserDetail(user);
+        }
+    }
 
-	/* GET ALL USERS */
-	public List<User> getAll() {
-		return userRepo.findAll();
-	}
+    /* REGISTER */
+    public String register(User user) {
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        user.setCreateDate(date);
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        String encodedPassword = encode.encode(user.getPassword());
+        user.setPassword(encodedPassword);
+        Role role = roleRepo.findRoleByRoleName("ROLE_USER");
+        user.getRoles().add(role);
+        // redisTemplate.opsForHash().put("User", user.getId(), user);
+        userRepo.save(user);
+        return "your acc has been successfully registered!";
+    }
 
-	/* GET ALL USERS BY STR */
-	public List<User> getAllUsersByString(String str) {
-		List<User> users = userRepo.findAll();
-		List<User> users1 = new ArrayList<User>();
-		for (User user : users) {
-			if (user.getFullName().toLowerCase().contains(str.toLowerCase())
-					|| user.getDescription().toLowerCase().contains(str.toLowerCase())
-					|| user.getAddress().toLowerCase().contains(str.toLowerCase())) {
-				users1.add(user);
-			}
-		}
-		return users1;
-	}
+    /* GET ALL USERS */
+    public List<User> getAll() {
+        return userRepo.findAll();
+    }
 
-	/* FIND USER BY ID */
-	public User findUserById(Long id) {
-		return userRepo.findUserById(id);
-	}
+    /* GET ALL USERS BY STR */
+    public List<User> getAllUsersByString(String str) {
+        List<User> users = userRepo.findAll();
+        List<User> users1 = new ArrayList<User>();
+        for (User user : users) {
+            if (user.getFullName().toLowerCase().contains(str.toLowerCase())
+                            || user.getDescription().toLowerCase().contains(str.toLowerCase())
+                            || user.getAddress().toLowerCase().contains(str.toLowerCase())) {
+                users1.add(user);
+            }
+        }
+        return users1;
+    }
 
-	/* EDIT USER */
-	public String editUserInformation(Long roleId, User user, User user1) {
-		User user2 = userRepo.findUserById(roleId);
-		long millis = System.currentTimeMillis();
-		Date date = new Date(millis);
-		user2.setFullName(user.getFullName());
-		user2.setAddress(user.getAddress());
-		user2.setDescription(user.getDescription());
-		user2.setDateOfBirth(user.getDateOfBirth());
-		user2.setUnit(user.getUnit());
-		userRepo.save(user2);
-		EditUserHistory editUserHistory = new EditUserHistory();
-		editUserHistory.setUser(user2);
-		editUserHistory.setUpdateDate(date);
-		editUserHistory.setUserFullNameEdit(user2.getFullName());
-		editUserHistory.setUserAddressEdit(user2.getAddress());
-		editUserHistory.setUserDescriptionEdit(user2.getDescription());
-		editUserHistory.setUserDateOfBirthEdit(user2.getDateOfBirth());
-		editUserHistory.setUpdateUnitName(user2.getUnit().getUnitName());
-		editUserHistory.setUpdateUserName(user1.getFullName());
-		editUserHistoryRepo.save(editUserHistory);
-		return "Edit user successfully!";
-	}
+    /* FIND USER BY ID */
+    public User findUserById(Long id) {
+        return userRepo.findUserById(id);
+    }
 
-	/* DELETE USER */
-	public List<User> deleteUser(Long id) {
-		userRepo.deleteById(id);
-		return userRepo.findAll();
-	}
+    /* EDIT USER */
+    public String editUserInformation(Long roleId, User user, User user1) {
+        User user2 = userRepo.findUserById(roleId);
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+        user2.setFullName(user.getFullName());
+        user2.setAddress(user.getAddress());
+        user2.setDescription(user.getDescription());
+        user2.setDateOfBirth(user.getDateOfBirth());
+        user2.setUnit(user.getUnit());
+        userRepo.save(user2);
+        EditUserHistory editUserHistory = new EditUserHistory();
+        editUserHistory.setUser(user2);
+        editUserHistory.setUpdateDate(date);
+        editUserHistory.setUserFullNameEdit(user2.getFullName());
+        editUserHistory.setUserAddressEdit(user2.getAddress());
+        editUserHistory.setUserDescriptionEdit(user2.getDescription());
+        editUserHistory.setUserDateOfBirthEdit(user2.getDateOfBirth());
+        editUserHistory.setUpdateUnitName(user2.getUnit().getUnitName());
+        editUserHistory.setUpdateUserName(user1.getFullName());
+        editUserHistoryRepo.save(editUserHistory);
+        return "Edit user successfully!";
+    }
 
-	/* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
-	public List<Unit> getAllExcept1(Long id) {
-		User user = userRepo.findUserById(id);
-		List<Unit> units = unitRepo.findAll();
-		units.remove(user.getUnit());
-		return units;
-	}
+    /* DELETE USER */
+    public List<User> deleteUser(Long id) {
+        userRepo.deleteById(id);
+        return userRepo.findAll();
+    }
+
+    /* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
+    public List<Unit> getAllExcept1(Long id) {
+        User user = userRepo.findUserById(id);
+        List<Unit> units = unitRepo.findAll();
+        units.remove(user.getUnit());
+        return units;
+    }
 }
