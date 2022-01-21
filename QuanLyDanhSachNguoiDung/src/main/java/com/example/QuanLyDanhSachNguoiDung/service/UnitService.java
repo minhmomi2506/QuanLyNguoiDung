@@ -14,15 +14,15 @@ import com.example.QuanLyDanhSachNguoiDung.entity.User;
  */
 @Service
 public interface UnitService {
-	List<Unit> getAll();
+    List<Unit> getAll();
 
-	String addUnit(Unit unit, Long fatherUnitId);
+    String addUnit(Unit unit, Long fatherUnitId);
 
-	List<Unit> deleteUnit(Long id);
+    List<Unit> deleteUnit(Long id);
 
-	Unit fintUnitById(Long id);
+    Unit fintUnitById(Long id);
 
-	String editUnit(Long id, Unit unit, User user, Long fatherUnitId);
+    String editUnit(Long id, Unit unit, User user, Long fatherUnitId);
 
-	List<Unit> getAllExcept1(Long id);
+    List<Unit> getAllExcept1(Long id);
 }

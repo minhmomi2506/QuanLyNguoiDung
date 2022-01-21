@@ -19,39 +19,39 @@ import lombok.Data;
 /**
  * @date 2022-01-06 - CREATE NEW
  *
- * @author MinhHL 
+ * @author MinhHL
  */
 @Entity
 @Table
 @Data
 public class EditUserHistory {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column
-	private String userFullNameEdit;
+    @Column
+    private String userFullNameEdit;
 
-	@Column
-	private String userDescriptionEdit;
+    @Column
+    private String userDescriptionEdit;
 
-	@Column
-	private String userAddressEdit;
+    @Column
+    private String userAddressEdit;
 
-	@Column
-	private java.sql.Date userDateOfBirthEdit;
+    @Column
+    private java.sql.Date userDateOfBirthEdit;
 
-	@Column
-	private Date updateDate;
+    @Column
+    private Date updateDate;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@OnDelete(action = OnDeleteAction.CASCADE)
-	private User user;
-	
-	@Column
-	private String updateUserName;
-	
-	@Column
-	private String updateUnitName;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private User user;
+
+    @Column
+    private String updateUserName;
+
+    @Column
+    private String updateUnitName;
 }

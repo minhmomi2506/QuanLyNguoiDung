@@ -31,24 +31,24 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Unit {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column
-	private String unitId;
+    @Column
+    private String unitId;
 
-	@Column
-	private String unitName;
+    @Column
+    private String unitName;
 
-	@Column
-	private String description;
+    @Column
+    private String description;
 
-	@Column
-	private Date createDate;
+    @Column
+    private Date createDate;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JsonIgnoreProperties("fatherUnit")
-	@JoinColumn(name = "unit_father_id")
-	private Unit fatherUnit;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnoreProperties("fatherUnit")
+    @JoinColumn(name = "unit_father_id")
+    private Unit fatherUnit;
 }

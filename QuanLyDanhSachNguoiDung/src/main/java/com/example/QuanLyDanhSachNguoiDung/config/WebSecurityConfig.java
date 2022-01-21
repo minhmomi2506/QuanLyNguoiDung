@@ -1,3 +1,4 @@
+
 package com.example.QuanLyDanhSachNguoiDung.config;
 
 import org.springframework.context.annotation.Bean;
@@ -9,41 +10,43 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+
 /**
- * @date 2022-01-06 - CREATE NEW
+ * 19/01/2022 - LinhLH: Create new
  *
- * @author MinhHL
+ * @author LinhLH
  */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-	@Bean
-	public DaoAuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setPasswordEncoder(passwordEncoder());
-		authProvider.setUserDetailsService(userDetailsService());
-		return authProvider;
-	}
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setPasswordEncoder(passwordEncoder());
+        authProvider.setUserDetailsService(userDetailsService());
+        return authProvider;
+    }
 
-	@Bean
-	public JwtAuthenticationFilter authenticationFilter() {
-		return new JwtAuthenticationFilter();
-	}
+    @Bean
+    public JwtAuthenticationFilter authenticationFilter() {
+        return new JwtAuthenticationFilter();
+    }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().authorizeRequests().antMatchers("/validate", "/register", "/findUserById/**").permitAll()
-				.antMatchers("/findUserById/**", "/editUser/**", "/deleteUser/**", "/getAllUnits", "/addUnit/**",
-						"/findUnitById/**", "/deleteUnit/**", "/editUnit/**", "/getAllRoles")
-				.hasRole("ADMIN").antMatchers("/getAllUsers").hasAnyRole("USER", "ADMIN").anyRequest().authenticated();
-		http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-		http.cors();
-	}
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests().antMatchers("/validate")
+                        .permitAll()
+                        .antMatchers("/unit/**", "/user/**")
+                        .hasRole("ADMIN").antMatchers("user/getAll").hasAnyRole("USER", "ADMIN").anyRequest()
+                        .authenticated();
+        http.addFilterBefore(authenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.cors();
+    }
 
 }
