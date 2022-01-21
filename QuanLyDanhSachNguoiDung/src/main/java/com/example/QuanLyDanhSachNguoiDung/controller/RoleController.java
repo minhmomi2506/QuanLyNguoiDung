@@ -18,15 +18,15 @@ import com.example.QuanLyDanhSachNguoiDung.service.RoleService;
 @RestController
 @CrossOrigin(origins = "*")
 public class RoleController {
-	@Autowired
-	private RoleService roleService;
+    @Autowired
+    private RoleService roleService;
 
-	/**
-	 * @return
-	 */
-	@GetMapping("/getAllRoles")
-	public List<Role> getAllUsers() {
+    /**
+     * @return
+     */
+    @GetMapping("/getAllRoles")
+    public List<Role> getAllUsers() {
 
-		return roleService.getAll();
-	}
+        return roleService.getAll();
+    }
 }

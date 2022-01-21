@@ -1,0 +1,27 @@
+schema{
+query: Query
+}
+
+type Query{
+getAllUsers: [User] 
+}
+
+type Unit{
+id: Long
+unitName: String
+}
+
+type Role{
+id: Long
+roleName: String
+}
+
+type User{
+id: Long
+fullName: String
+address: String
+username: String
+description: String
+unit: Unit
+roles: [Role]
+}
