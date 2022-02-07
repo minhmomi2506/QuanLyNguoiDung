@@ -1,0 +1,56 @@
+<!-- <input type="text" [formControl]="name">
+<div>{{name.value}}</div>
+<h1>aaaaaaa</h1>
+<button (click)="updateName()">Update name</button> -->
+<div class="container">
+    <h1>Học về Reactive Form</h1>
+    <form [formGroup]="posts" (ngSubmit)="onSubmitPost()">
+        <label>
+            TITLE:
+            <input type="text" formControlName="title" required />
+        </label>
+        <span *ngIf="posts.controls['title'].invalid" class="errorMessage">
+            * Cần phải nhập title
+        </span>
+        <br />
+        <label>
+            AUTHOR:
+            <input type="text" formControlName="author" required />
+        </label>
+        <span *ngIf="posts.controls['author'].invalid" class="errorMessage">
+            * Cần phải nhập tác giả
+        </span>
+        <br />
+        <button type="submit" class="btn btn-success" [disabled]="!posts.valid">
+            Submit
+        </button>
+    </form>
+</div>
+
+<div class="container">
+    <h1>Học về Reactive Form</h1>
+    <form [formGroup]="comments" (ngSubmit)="onSubmitComment()">
+        <label>
+            BODY:
+            <input type="text" formControlName="body" required />
+        </label>
+        <span *ngIf="comments.controls['body'].invalid" class="errorMessage">
+            * Cần phải nhập body
+        </span>
+        <br />
+        <label>
+            POST ID:
+            <input type="text" formControlName="postId" required />
+        </label>
+        <span *ngIf="comments.controls['postId'].invalid" class="errorMessage">
+            * Cần phải nhập post Id
+        </span>
+        <br />
+        <button type="submit" class="btn btn-success" [disabled]="!comments.valid">
+            Submit
+        </button>
+    </form>
+</div>
+<button (click)="allPosts1()">Refresh</button>
+aaa
+<app-child-component [allPosts] = "allPosts"></app-child-component>
