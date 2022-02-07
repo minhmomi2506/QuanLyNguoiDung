@@ -1,0 +1,123 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<button class="btn btn-primary" (click)="register()" *ngIf="getRoles()">Register</button>
+<button class="btn btn-primary" (click)="unit()" *ngIf="getRoles()">Unit</button>
+
+<div class="container">
+    <div class="row">
+        <div id="custom-search-input">
+            <div class="input-group col-md-12" style="text-align: center">
+                <input type="text" class="search-query form-control" placeholder="Search With Email Address"
+                    name="email" [(ngModel)]="str" (input)="findUserByStr()">
+                <span class="input-group-btn">
+                    <!-- <button class="btn btn-danger" type="button" (click)="findUserByStr()">
+                        <span class=" glyphicon glyphicon-search"></span>
+                    </button> -->
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+<button (click)="logout()">Log out</button>
+<div class="container">
+    <div class="container">
+        <div class="row col-md-6 col-md-offset-2 custyle">
+            <table class="table table-striped custab">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Date of birth</th>
+                        <th>Description</th>
+                        <th>Address</th>
+                        <th>Create Date</th>
+                        <th>Unit</th>
+                        <th>Role</th>
+                        <th id="editUser" *ngIf="getRoles()">Edit</th>
+                        <th *ngIf="getRoles()">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{user.id}}</td>
+                        <td>{{user.fullName}}</td>
+                        <td>{{user.dateOfBirth}}</td>
+                        <td>{{user.description}}</td>
+                        <td>{{user.address}}</td>
+                        <td>{{user.createDate}}</td>
+                        <td>{{user.unit?.unitName}}</td>
+                        <td>
+                            <div *ngFor="let role of user.roles">{{role.roleName}}</div>
+                        </td>
+                        <td style="width: 200px;" *ngIf="getRoles()"><button class="fa fa-pencil" style="color: green;"
+                                data-bs-toggle="modal" attr.data-bs-target="#editUserModal{{user.id}}"
+                                (click)="findUserById(user.id)"></button>
+                            <div class="modal fade editModal" tabindex="-1" id="editUserModal{{user.id}}"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content" style="width: 800px;">
+                                        <div class="modal-header">
+                                            EDIT USER
+                                        </div>
+                                        <div class="modal-body" style="width: 800px;">
+                                            <div class="form-group">
+                                                <label for="fullName"><span class="req">* </span> Full name : </label>
+                                                <input class="form-control" type="text" name="id" id="fullNameEdit{{user.id}}"
+                                                    placeholder="Enter full name" required
+                                                    [(ngModel)]="user1.fullName" />
+                                                <div id="errLast"></div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="dateOfBirth"><span class="req">* </span> Date of birth :
+                                                </label>
+                                                <input class="form-control" type="date" name="dateOfBirthEdit"
+                                                    id="dateOfBirth{{user.id}}" placeholder="Enter date of birth" required
+                                                    [(ngModel)]="user1.dateOfBirth" />
+                                                <div id="errLast"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="description"><span class="req">* </span> Description:
+                                                </label>
+                                                <input class="form-control" required type="text" name="description"
+                                                    id="descriptionEdit{{user.id}}" placeholder="Enter description"
+                                                    [(ngModel)]="user1.description" />
+                                                <div class="status" id="status"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="address"><span class="req">* </span> Address: </label>
+                                                <input class="form-control" required type="text" name="address"
+                                                    id="addressEdit{{user.id}}" placeholder="Enter address"
+                                                    [(ngModel)]="user1.address" />
+                                                <div class="status" id="status"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="unit"><span class="req">* </span> Unit: </label>
+                                                <select id="userUnit{{user.id}}" (change)="unitChange()">
+                                                    <option value="{{user?.unit.id}}" text="{{user?.unit.unitName}}"
+                                                        selected></option>
+                                                    <option *ngFor="let unit1 of units" value="{{unit1.id}}"
+                                                        text="{{unit1.unitName}}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <input class="btn btn-success" type="submit" name="submit_reg"
+                                                    value="Edit" (click)="editUser()">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td *ngIf="getRoles()"><a class="fas fa-trash" (click)="deleteUser(user.id)"
+                                style="color: red;"></a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
