@@ -2,7 +2,6 @@ package com.example.QuanLyDanhSachNguoiDung.controller;
 
 import java.io.IOException;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.exception.ResourceNotFoundException;
@@ -24,6 +22,7 @@ import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
 import com.example.QuanLyDanhSachNguoiDung.service.MyUserDetail;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 import graphql.ExecutionResult;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @date 2022-01-06 - CREATE NEW
@@ -33,6 +32,7 @@ import graphql.ExecutionResult;
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -80,6 +80,7 @@ public class UserController {
      */
     @GetMapping("/getAllUsers")
     public List<User> getAllUsers() {
+        log.info("List users");
         return userService.getAll();
     }
 
@@ -88,6 +89,13 @@ public class UserController {
         ExecutionResult executionResult = userService.loadSchema().execute(query);
         return new ResponseEntity<Object>(executionResult, HttpStatus.OK);
     }
+    
+    @PostMapping("/findUserById")
+    public ResponseEntity<Object> findUserById(@RequestBody String query) throws IOException {
+        ExecutionResult executionResult = userService.loadSchema().execute(query);
+        return new ResponseEntity<Object>(executionResult, HttpStatus.OK);
+    }
+
 
     /**
      * @param id
@@ -131,6 +139,15 @@ public class UserController {
     @DeleteMapping("/deleteUser/{id}")
     public List<User> deleteUser(@PathVariable Long id) {
         return userService.deleteUser(id);
+    }
+
+    /**
+     * @param id
+     */
+    // TEST AFTERTHROWING ANNOTATION
+    @DeleteMapping("/deleteUserById/{id}")
+    public void deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
     }
 
     /**

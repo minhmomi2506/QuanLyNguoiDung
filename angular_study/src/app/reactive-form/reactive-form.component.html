@@ -1,0 +1,45 @@
+<!-- <input type="text" [formControl]="name">
+<div>{{name.value}}</div>
+<h1>aaaaaaa</h1>
+<button (click)="updateName()">Update name</button> -->
+<div class="container">
+    <h1>Học về Reactive Form</h1>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <label>
+            Name:
+            <input type="text" formControlName="name" required />
+        </label>
+        <span *ngIf="profileForm.controls['name'].invalid" class="errorMessage">
+            * Cần phải nhập tên
+        </span>
+        <br />
+        <label>
+            Age:
+            <input type="number" formControlName="age" required />
+        </label>
+        <span *ngIf="profileForm.controls['age'].invalid" class="errorMessage">
+            * Cần phải nhập chiều cao
+        </span>
+        <div formGroupName="properties">
+            <label>
+                Height
+                <input type="number" formControlName="height" required />
+            </label>
+            <span *ngIf="profileForm.controls['properties'].get('height')?.invalid" class="errorMessage">
+                * Cần phải nhập chiều cao
+            </span>
+            <br />
+            <label>
+                Weight
+                <input type="number" formControlName="weight" required />
+            </label>
+            <span *ngIf="profileForm.controls['properties'].get('weight')?.invalid" class="errorMessage">
+                * Cần phải nhập cân nặng
+            </span>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-success" [disabled]="!profileForm.valid">
+            Submit
+        </button>
+    </form>
+</div>

@@ -1,27 +1,41 @@
 schema{
-query: Query
+	query: Query
+	mutation: Mutation
 }
 
 type Query{
-getAllUsers: [User] 
+	getAllUsers: [User] 
+	findUserById(id: Long) : User
+}
+
+type Mutation{
+	createUser(user: CreateUserInput): User
 }
 
 type Unit{
-id: Long
-unitName: String
+	id: Long
+	unitName: String
 }
 
 type Role{
-id: Long
-roleName: String
+	id: Long
+	roleName: String
 }
 
 type User{
-id: Long
-fullName: String
-address: String
-username: String
-description: String
-unit: Unit
-roles: [Role]
+	id: Long,
+	fullName: String,
+	address: String,
+	username: String,
+	description: String,
+	unit: Unit,
+	roles: [Role]
 }
+
+input CreateUserInput{
+	username: String,
+	password: String,
+	fullName: String,
+	description: String
+}
+

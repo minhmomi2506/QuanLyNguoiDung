@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import com.example.QuanLyDanhSachNguoiDung.entity.CreateUserInput;
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
@@ -66,8 +67,12 @@ public class UserService implements UserDetailsService {
         DataFetcher<List<User>> dataFetcher = data -> {
             return userRepo.findAll();
         };
+        DataFetcher<User> dataFetcher2 = data -> {
+            return userRepo.findUserById(data.getArgument("id"));
+        };
+
         return RuntimeWiring.newRuntimeWiring().type("Query",
-                        typeWriting -> typeWriting.dataFetcher("getAllUsers", dataFetcher))
+                        typeWriting -> typeWriting.dataFetcher("getAllUsers", dataFetcher).dataFetcher("findUserById", dataFetcher2))
                         .build();
     }
     // @Autowired
@@ -82,6 +87,15 @@ public class UserService implements UserDetailsService {
             return new MyUserDetail(user);
         }
     }
+
+     public User createUser(CreateUserInput input) {
+     long millis = System.currentTimeMillis();
+     Date date = new Date(millis);
+//     Role role = roleRepo.findRoleByRoleName("ROLE_USER");
+//     input.getRoles().add(role);
+     return userRepo.saveAndFlush(new User(null, input.getUsername(), input.getPassword(), input.getFullName(),
+     input.getDescription(), date, input.getAddress(), null, null, null));
+     }
 
     /* REGISTER */
     public String register(User user) {
@@ -150,6 +164,10 @@ public class UserService implements UserDetailsService {
     public List<User> deleteUser(Long id) {
         userRepo.deleteById(id);
         return userRepo.findAll();
+    }
+
+    public void deleteUserById(Long id) {
+        userRepo.deleteById(id);
     }
 
     /* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */
