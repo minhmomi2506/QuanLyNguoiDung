@@ -1,0 +1,17 @@
+<p>home works!</p>
+<h1>Hello {{name | uppercase}}</h1>
+<h1 *ngIf="age >= 20 then condition1; else condition2;"></h1>
+<span appBold>Mày {{age}} tuổi</span>
+<ng-template #condition1>Mày trên 20</ng-template>
+<ng-template #condition2>Mày dưới 20</ng-template>
+<br/>
+<input [(ngModel)]="name" />
+<br />
+<select>
+    <option *ngFor="let vehicle of vehicles">{{vehicle}}</option>
+</select>
+<br />
+<button (click)="increaseAge()" appBold>Tăng tuổi</button>
+<br />
+<a [routerLink]="['/about']" routerLinkActive="router-link-active">Đi tới about</a>
+<div>{{vehicles | json}}</div>
