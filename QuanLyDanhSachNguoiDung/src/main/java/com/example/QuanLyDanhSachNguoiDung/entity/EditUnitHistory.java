@@ -1,7 +1,6 @@
 package com.example.QuanLyDanhSachNguoiDung.entity;
 
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +9,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @date 2022-01-06 - CREATE NEW
@@ -24,6 +23,8 @@ import lombok.Data;
 @Entity
 @Table
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class EditUnitHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

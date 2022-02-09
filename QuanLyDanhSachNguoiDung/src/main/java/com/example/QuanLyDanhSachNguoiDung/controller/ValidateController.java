@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @RestController
 @CrossOrigin(origins = "*")
-@Slf4j
+@Slf4j //Annotation này dùng để định nghĩa file log
 public class ValidateController {
     @Autowired
     private UserRepo userRepo;
