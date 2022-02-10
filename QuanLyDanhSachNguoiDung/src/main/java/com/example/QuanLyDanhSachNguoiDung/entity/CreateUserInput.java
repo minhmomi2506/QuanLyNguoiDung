@@ -1,8 +1,8 @@
 package com.example.QuanLyDanhSachNguoiDung.entity;
 
-import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 /**
@@ -12,11 +12,11 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CreateUserInput {
     private String username;
     private String password;
     private String fullName;
     private String description;
-    private Date createDate;
     private String address;
 }

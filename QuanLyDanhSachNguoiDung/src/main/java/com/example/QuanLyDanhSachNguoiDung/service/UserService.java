@@ -1,14 +1,9 @@
 package com.example.QuanLyDanhSachNguoiDung.service;
 
-import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,13 +18,6 @@ import com.example.QuanLyDanhSachNguoiDung.repo.EditUserHistoryRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UserRepo;
-import graphql.GraphQL;
-import graphql.schema.DataFetcher;
-import graphql.schema.GraphQLSchema;
-import graphql.schema.idl.RuntimeWiring;
-import graphql.schema.idl.SchemaGenerator;
-import graphql.schema.idl.SchemaParser;
-import graphql.schema.idl.TypeDefinitionRegistry;
 
 /**
  * @date 2022-01-06 - CREATE NEW
@@ -49,32 +37,6 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private EditUserHistoryRepo editUserHistoryRepo;
-
-    @Value("classpath:user.graphqls")
-    private Resource schemaResource;
-
-    @PostConstruct
-    public GraphQL loadSchema() throws IOException {
-        File schemaFile = schemaResource.getFile();
-        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(schemaFile);
-        RuntimeWiring runtimeWiring = buildWiring();
-        GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
-        GraphQL graphQL = GraphQL.newGraphQL(graphQLSchema).build();
-        return graphQL;
-    }
-
-    private RuntimeWiring buildWiring() {
-        DataFetcher<List<User>> dataFetcher = data -> {
-            return userRepo.findAll();
-        };
-        DataFetcher<User> dataFetcher2 = data -> {
-            return userRepo.findUserById(data.getArgument("id"));
-        };
-
-        return RuntimeWiring.newRuntimeWiring().type("Query",
-                        typeWriting -> typeWriting.dataFetcher("getAllUsers", dataFetcher).dataFetcher("findUserById", dataFetcher2))
-                        .build();
-    }
     // @Autowired
     // private RedisTemplate<String, User> redisTemplate;
 
@@ -88,14 +50,17 @@ public class UserService implements UserDetailsService {
         }
     }
 
-     public User createUser(CreateUserInput input) {
-     long millis = System.currentTimeMillis();
-     Date date = new Date(millis);
-//     Role role = roleRepo.findRoleByRoleName("ROLE_USER");
-//     input.getRoles().add(role);
-     return userRepo.saveAndFlush(new User(null, input.getUsername(), input.getPassword(), input.getFullName(),
-     input.getDescription(), date, input.getAddress(), null, null, null));
-     }
+    public User createUser(CreateUserInput input) {
+        long millis = System.currentTimeMillis();
+        Date date = new Date(millis);
+//        Role role = roleRepo.findRoleByRoleName("ROLE_USER");
+//        input.getRoles().add(role);
+        BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
+        String encodedPassword = encode.encode(input.getPassword());
+        input.setPassword(encodedPassword);
+        return userRepo.saveAndFlush(new User(null, input.getUsername(), input.getPassword(), input.getFullName(),
+        input.getDescription(), date, input.getAddress(), null, null, null));
+    }
 
     /* REGISTER */
     public String register(User user) {
