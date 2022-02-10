@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.example.QuanLyDanhSachNguoiDung.config.scalarConfig.QueryResolver;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
 import com.example.QuanLyDanhSachNguoiDung.exception.ResourceNotFoundException;
@@ -34,6 +35,9 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+    
+    @Autowired
+    private QueryResolver queryResolver;
 
     @Autowired
     private UserService userService;
@@ -86,13 +90,13 @@ public class UserController {
 
     @PostMapping("/getAll")
     public ResponseEntity<Object> getAll(@RequestBody String query) throws IOException {
-        ExecutionResult executionResult = userService.loadSchema().execute(query);
+        ExecutionResult executionResult = queryResolver.loadSchema().execute(query);
         return new ResponseEntity<Object>(executionResult, HttpStatus.OK);
     }
     
     @PostMapping("/findUserById")
     public ResponseEntity<Object> findUserById(@RequestBody String query) throws IOException {
-        ExecutionResult executionResult = userService.loadSchema().execute(query);
+        ExecutionResult executionResult = queryResolver.loadSchema().execute(query);
         return new ResponseEntity<Object>(executionResult, HttpStatus.OK);
     }
 
