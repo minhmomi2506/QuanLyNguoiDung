@@ -1,8 +1,12 @@
 package com.example.QuanLyDanhSachNguoiDung.service;
 
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -50,16 +54,21 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    public User createUser(CreateUserInput input) {
+    public User createUser(CreateUserInput input) throws ParseException {
         long millis = System.currentTimeMillis();
         Date date = new Date(millis);
-//        Role role = roleRepo.findRoleByRoleName("ROLE_USER");
-//        input.getRoles().add(role);
+        // Role role = roleRepo.findRoleByRoleName("ROLE_USER");
+        // input.getRoles().add(role);
         BCryptPasswordEncoder encode = new BCryptPasswordEncoder();
         String encodedPassword = encode.encode(input.getPassword());
         input.setPassword(encodedPassword);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        java.util.Date parsed = format.parse(input.getDateOfBirth());
+        java.sql.Date dateOfBirth = new java.sql.Date(parsed.getTime());
+        System.out.println(dateOfBirth);
+        Unit unit = unitRepo.findUnitById(input.getUnitId());
         return userRepo.saveAndFlush(new User(null, input.getUsername(), input.getPassword(), input.getFullName(),
-        input.getDescription(), date, input.getAddress(), null, null, null));
+                        input.getDescription(), date, input.getAddress(), dateOfBirth, unit, null));
     }
 
     /* REGISTER */
@@ -131,8 +140,9 @@ public class UserService implements UserDetailsService {
         return userRepo.findAll();
     }
 
-    public void deleteUserById(Long id) {
-        userRepo.deleteById(id);
+    @Transactional
+    public int deleteUserById(Long userId) {
+        return userRepo.deleteUserById(userId);
     }
 
     /* GET ALL UNITS EXCEPT THE ONE BELONGS TO THE USER BEING EDITED */

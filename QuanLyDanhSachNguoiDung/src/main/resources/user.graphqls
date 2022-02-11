@@ -6,14 +6,17 @@ type Query {
 
 type Mutation {
 	createUser(input: CreateUserInput!): User!
+	deleteUserById(id: Long!): Long!
 }
 
 input CreateUserInput {
 	username: String!
 	password: String!
 	fullName: String!
-	description: String!
+	description: String
 	address: String!
+	dateOfBirth: String!
+	unitId: Long!
 }
 
 type Unit {
@@ -28,11 +31,11 @@ type Role {
 
 type User {
 	id: Long,
-	fullName: String,
-	address: String,
-	username: String,
-	description: String,
-	password: String,
-	unit: Unit,
+	fullName: String
+	address: String
+	username: String
+	description: String
+	password: String
+	unit: Unit
 	roles: [Role]
 }
