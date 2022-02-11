@@ -10,11 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 /**
- * 19/01/2022 - LinhLH: Create new
- *
- * @author LinhLH
+ * 11/02/2022 - MinhHL: Create new
+ * @author MinhHL
  */
 @Configuration
 @EnableWebSecurity
