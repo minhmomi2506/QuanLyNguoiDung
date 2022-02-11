@@ -19,4 +19,6 @@ public class CreateUserInput {
     private String fullName;
     private String description;
     private String address;
+    private String dateOfBirth;
+    private Long unitId;
 }
