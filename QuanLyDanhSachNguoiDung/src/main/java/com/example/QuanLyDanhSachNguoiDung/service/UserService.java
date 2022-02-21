@@ -1,7 +1,6 @@
 package com.example.QuanLyDanhSachNguoiDung.service;
 
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,11 +12,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.example.QuanLyDanhSachNguoiDung.entity.CreateUserInput;
 import com.example.QuanLyDanhSachNguoiDung.entity.EditUserHistory;
 import com.example.QuanLyDanhSachNguoiDung.entity.Role;
 import com.example.QuanLyDanhSachNguoiDung.entity.Unit;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
+import com.example.QuanLyDanhSachNguoiDung.entity.graphQLEntity.CreateUserInput;
+import com.example.QuanLyDanhSachNguoiDung.entity.graphQLEntity.EditUserInput;
 import com.example.QuanLyDanhSachNguoiDung.repo.EditUserHistoryRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.RoleRepo;
 import com.example.QuanLyDanhSachNguoiDung.repo.UnitRepo;
@@ -70,6 +70,16 @@ public class UserService implements UserDetailsService {
         return userRepo.saveAndFlush(new User(null, input.getUsername(), input.getPassword(), input.getFullName(),
                         input.getDescription(), date, input.getAddress(), dateOfBirth, unit, null));
     }
+    
+    @Transactional
+    public User editUser(EditUserInput input) {
+        User user = userRepo.findUserById(input.getId());
+        user.setFullName(input.getFullName());
+        user.setDescription(input.getDescription());
+        user.setAddress(input.getAddress());
+        return userRepo.save(user);
+    }
+    
 
     /* REGISTER */
     public String register(User user) {

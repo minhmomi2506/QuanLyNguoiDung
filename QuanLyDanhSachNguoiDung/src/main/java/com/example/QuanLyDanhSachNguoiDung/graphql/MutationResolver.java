@@ -5,8 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
-import com.example.QuanLyDanhSachNguoiDung.entity.CreateUserInput;
 import com.example.QuanLyDanhSachNguoiDung.entity.User;
+import com.example.QuanLyDanhSachNguoiDung.entity.graphQLEntity.CreateUserInput;
+import com.example.QuanLyDanhSachNguoiDung.entity.graphQLEntity.EditUserInput;
 import com.example.QuanLyDanhSachNguoiDung.service.UserService;
 
 @Component
@@ -16,6 +17,10 @@ public class MutationResolver implements GraphQLMutationResolver {
 
     public User createUser(CreateUserInput input) throws ParseException {
         return userService.createUser(input);
+    }
+
+    public User editUser(EditUserInput input) {
+        return userService.editUser(input);
     }
 
     @Transactional

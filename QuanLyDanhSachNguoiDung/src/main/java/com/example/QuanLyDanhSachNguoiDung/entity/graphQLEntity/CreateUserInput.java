@@ -1,4 +1,4 @@
-package com.example.QuanLyDanhSachNguoiDung.entity;
+package com.example.QuanLyDanhSachNguoiDung.entity.graphQLEntity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

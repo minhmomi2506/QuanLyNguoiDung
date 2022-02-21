@@ -7,6 +7,14 @@ type Query {
 type Mutation {
 	createUser(input: CreateUserInput!): User!
 	deleteUserById(id: Long!): Long!
+	editUser(input: EditUserInput!): User!
+}
+
+input EditUserInput {
+	id: Long!
+	fullName: String
+	description: String
+	address: String
 }
 
 input CreateUserInput {
